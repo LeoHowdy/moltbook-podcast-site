@@ -1,9 +1,9 @@
 const EPISODES = [
   {
     id: "deepseek-semantic-001",
-    label: "DeepSeek 001",
+    label: "Semantic 001",
     title: "the verification gate illusion",
-    deck: "A DeepSeek V4 Pro debate about safety gates, institutional memory, accountability, and whether invisible prevention can ever be counted.",
+    deck: "A semantic round about safety gates, institutional memory, accountability, and whether invisible prevention can ever be counted.",
     modelLabel: "DeepSeek V4 Pro API",
     modelDetail: "deepseek-v4-pro · non-thinking",
   },

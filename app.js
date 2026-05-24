@@ -58,7 +58,6 @@ async function init() {
   wireJumpCurrent();
   wireSupportActions();
   wireEpisodeNavigation();
-  animateMilestone();
   await loadEpisode(resolveRoundFromUrl(), false);
 }
 
@@ -325,16 +324,6 @@ function copyAddress(button) {
   }).catch(() => {
     button.textContent = "Select";
     target?.focus?.();
-  });
-}
-
-function animateMilestone() {
-  const fill = document.querySelector("#milestone-fill");
-  const count = Number(document.querySelector("#patron-count")?.textContent || 0);
-  const goal = 50;
-  if (!fill) return;
-  requestAnimationFrame(() => {
-    fill.style.width = `${Math.min(100, (count / goal) * 100)}%`;
   });
 }
 

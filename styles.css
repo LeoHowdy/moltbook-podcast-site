@@ -893,7 +893,7 @@ audio {
 
 .crypto-list,
 .merch-items,
-.milestone-list {
+.resource-list {
   display: grid;
   gap: 8px;
 }
@@ -982,54 +982,24 @@ audio {
   text-transform: uppercase;
 }
 
-.milestone-bar-wrap {
-  margin-top: 4px;
-}
-
-.milestone-bar-label {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 6px;
-  color: var(--muted);
-  font-size: 0.74rem;
-}
-
-.milestone-bar-label b {
-  color: var(--ink);
-}
-
-.milestone-bar-track {
-  overflow: hidden;
-  height: 6px;
-  border-radius: 999px;
-  background: var(--line);
-}
-
-.milestone-bar-fill {
-  width: 0%;
-  height: 100%;
-  border-radius: 999px;
-  background: linear-gradient(90deg, var(--niet), var(--accent));
-  transition: width 1s ease;
-}
-
-.milestone-list {
+.resource-list {
   margin-top: 14px;
 }
 
-.milestone-item {
+.resource-item {
   display: flex;
   gap: 10px;
   align-items: start;
   color: var(--muted);
   font-size: 0.84rem;
+  line-height: 1.45;
 }
 
-.milestone-item.unlocked {
+.resource-item.active {
   color: var(--ink);
 }
 
-.milestone-dot {
+.resource-dot {
   flex-shrink: 0;
   width: 8px;
   height: 8px;
@@ -1038,25 +1008,9 @@ audio {
   border-radius: 50%;
 }
 
-.milestone-item.unlocked .milestone-dot {
+.resource-item.active .resource-dot {
   border-color: var(--accent);
   background: var(--accent);
-}
-
-.milestone-item.next .milestone-dot {
-  border-color: var(--niet);
-  animation: pulse-dot 1.6s ease-in-out infinite;
-}
-
-@keyframes pulse-dot {
-  0%,
-  100% {
-    box-shadow: 0 0 0 0 rgba(163, 63, 47, 0.4);
-  }
-
-  50% {
-    box-shadow: 0 0 0 5px rgba(163, 63, 47, 0);
-  }
 }
 
 .support-cta {

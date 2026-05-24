@@ -720,13 +720,13 @@ audio {
   line-height: 1.72;
 }
 
-.cost-ledger {
+.support-appeal {
   margin-top: 28px;
   padding-top: 24px;
   border-top: 1px solid rgba(255, 250, 241, 0.12);
 }
 
-.cost-ledger-label {
+.support-appeal-label {
   margin: 0 0 14px;
   color: rgba(255, 250, 241, 0.42);
   font-size: 0.68rem;
@@ -735,44 +735,15 @@ audio {
   text-transform: uppercase;
 }
 
-.cost-rows {
-  display: grid;
-  gap: 8px;
+.support-appeal p:not(.support-appeal-label) {
+  margin: 0;
+  color: rgba(255, 250, 241, 0.66);
+  font-size: 0.94rem;
+  line-height: 1.72;
 }
 
-.cost-row {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 16px;
-  font-size: 0.88rem;
-}
-
-.cost-row span:first-child {
-  color: rgba(255, 250, 241, 0.56);
-}
-
-.cost-row span:last-child {
-  color: rgba(255, 250, 241, 0.88);
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-}
-
-.cost-row.total {
-  margin-top: 8px;
-  padding-top: 10px;
-  border-top: 1px solid rgba(255, 250, 241, 0.14);
-}
-
-.cost-row.total span:first-child {
-  color: rgba(255, 250, 241, 0.82);
-  font-weight: 700;
-}
-
-.cost-row.total span:last-child {
-  color: var(--accent);
-  font-size: 1rem;
+.support-appeal p + p {
+  margin-top: 14px;
 }
 
 .signals-column {

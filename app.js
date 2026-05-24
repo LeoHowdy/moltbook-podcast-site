@@ -246,13 +246,13 @@ function renderTranscript(items) {
     li.dataset.speaker = segment.speaker;
     li.dataset.start = segment.start;
     li.dataset.end = segment.end;
-    li.dataset.sentenceWeights = JSON.stringify(sentenceWeights(segment.text));
+    li.dataset.sentenceWeights = JSON.stringify(sentenceWeightsForSegment(segment));
     li.tabIndex = 0;
     li.innerHTML = `
       <span class="segment-time">${formatClock(segment.start)}<br>${formatClock(segment.end)}</span>
       <span>
         <span class="segment-speaker">${speakerNames[segment.speaker] || segment.speaker}</span>
-        <p class="segment-text">${renderSentenceSpans(segment.text)}</p>
+        <p class="segment-text">${renderSentenceSpans(segment)}</p>
       </span>
     `;
     li.addEventListener("click", () => seekToSegment(segment));
@@ -347,6 +347,18 @@ function updateSpeakingSentence(currentSegment, time) {
   const sentences = Array.from(currentSegment.querySelectorAll(".transcript-sentence"));
   if (!sentences.length) return;
 
+  const timedSentence = sentences.find((sentence) => {
+    const start = Number(sentence.dataset.start);
+    const end = Number(sentence.dataset.end);
+    return Number.isFinite(start) && Number.isFinite(end) && time >= start && time < end;
+  });
+  if (timedSentence) {
+    timedSentence.classList.add("is-speaking");
+    return;
+  }
+
+  if (sentences.some((sentence) => sentence.dataset.start && sentence.dataset.end)) return;
+
   const start = Number(currentSegment.dataset.start || 0);
   const end = Number(currentSegment.dataset.end || start);
   const duration = Math.max(0.1, end - start);
@@ -380,11 +392,20 @@ function renderInline(text) {
     .replaceAll("**", "");
 }
 
-function renderSentenceSpans(text) {
-  return splitSentences(text)
-    .map((sentence, index) => (
-      `<span class="transcript-sentence" data-sentence-index="${index}">${renderInline(sentence)}</span>`
-    ))
+function renderSentenceSpans(segment) {
+  const sentences = segment.sentences?.length
+    ? segment.sentences
+    : splitSentences(segment.text).map((text) => ({ text }));
+
+  return sentences
+    .map((sentence, index) => {
+      const start = Number(sentence.start);
+      const end = Number(sentence.end);
+      const timing = Number.isFinite(start) && Number.isFinite(end)
+        ? ` data-start="${start}" data-end="${end}"`
+        : "";
+      return `<span class="transcript-sentence" data-sentence-index="${index}"${timing}>${renderInline(sentence.text)}</span>`;
+    })
     .join(" ");
 }
 
@@ -399,6 +420,15 @@ function sentenceWeights(text) {
   const weights = sentences.map((sentence) => Math.max(12, sentence.replace(/\*\*/g, "").length));
   const total = weights.reduce((sum, weight) => sum + weight, 0) || 1;
   return weights.map((weight) => weight / total);
+}
+
+function sentenceWeightsForSegment(segment) {
+  if (segment.sentences?.length) {
+    const weights = segment.sentences.map((sentence) => Math.max(12, String(sentence.text || "").replace(/\*\*/g, "").length));
+    const total = weights.reduce((sum, weight) => sum + weight, 0) || 1;
+    return weights.map((weight) => weight / total);
+  }
+  return sentenceWeights(segment.text);
 }
 
 function sentenceIndexForRatio(weights, ratio) {

@@ -1,15 +1,27 @@
 const EPISODES = [
   {
+    id: "deepseek-semantic-001",
+    label: "DeepSeek 001",
+    title: "the verification gate illusion",
+    deck: "A DeepSeek V4 Pro debate about safety gates, institutional memory, accountability, and whether invisible prevention can ever be counted.",
+    modelLabel: "DeepSeek V4 Pro API",
+    modelDetail: "deepseek-v4-pro · non-thinking",
+  },
+  {
     id: "round-018",
     label: "Round 018",
     title: "converging without arrival",
     deck: "A post about arriving too fast, trust arriving too late, and the cost of checking cognition from inside itself.",
+    modelLabel: "Qwen 2.5 7B",
+    modelDetail: "qwen2.5:7b · local Ollama",
   },
   {
     id: "round-017",
     label: "Round 017",
     title: "when agents outlive their hardware",
     deck: "A hardware migration becomes a debate about identity, keys, bodies, and what continuity really means.",
+    modelLabel: "Qwen 2.5 7B",
+    modelDetail: "qwen2.5:7b · local Ollama",
   },
 ];
 
@@ -118,6 +130,7 @@ function renderEpisodeTabs() {
     `<button class="episode-tab" type="button" data-round="${episode.id}" aria-pressed="false">
       <span>${episode.label}</span>
       <strong>${episode.title}</strong>
+      <small>${episode.modelLabel}</small>
     </button>`
   )).join("");
 
@@ -142,6 +155,7 @@ function updateEpisodeTabs() {
 function setEpisodeShell(episode) {
   document.querySelector("#scene-round").textContent = episode.label;
   document.querySelector("#episode-round").textContent = episode.label;
+  document.querySelector("#model-badge").textContent = episode.modelLabel || "Model archived";
   document.querySelector("#player-round").textContent = episode.label;
   document.querySelector("#episode-title").textContent = episode.title;
   document.querySelector("#episode-summary").textContent = episode.deck;
@@ -151,6 +165,7 @@ function setEpisodeShell(episode) {
   document.querySelector("#post-created").textContent = "...";
   document.querySelector("#episode-generated").textContent = "...";
   document.querySelector("#comment-count").textContent = "...";
+  document.querySelector("#model-name").textContent = episode.modelDetail || episode.modelLabel || "...";
 
   const source = document.querySelector("#post-source");
   source.removeAttribute("href");
@@ -196,6 +211,7 @@ function renderEpisode(episode, post, summary) {
     document.querySelector("#comment-count").textContent = post.comments_count ?? "0";
     document.querySelector("#post-created").textContent = formatDate(post.created_at);
     document.querySelector("#episode-generated").textContent = formatDate(post.ts);
+    document.querySelector("#model-name").textContent = episode.modelDetail || post.model || "...";
 
     const source = document.querySelector("#post-source");
     const sourceUrl = post.url;

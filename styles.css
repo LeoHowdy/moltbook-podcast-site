@@ -1013,6 +1013,54 @@ audio {
   background: var(--accent);
 }
 
+.coffee-card {
+  background:
+    linear-gradient(180deg, rgba(255, 216, 76, 0.16), transparent 44%),
+    rgba(255, 250, 241, 0.94);
+}
+
+.coffee-support {
+  display: grid;
+  grid-template-columns: minmax(92px, 128px) minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid rgba(215, 167, 61, 0.34);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.68);
+}
+
+.coffee-qr-link {
+  display: block;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.coffee-qr {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.coffee-details {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.42;
+}
+
+.coffee-url {
+  overflow-wrap: anywhere;
+  color: var(--ink);
+  font-family: "Courier New", monospace;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
 .support-cta {
   display: inline-flex;
   align-items: center;
@@ -1154,5 +1202,13 @@ audio {
   .signal-header {
     flex-direction: column;
     gap: 6px;
+  }
+
+  .coffee-support {
+    grid-template-columns: 1fr;
+  }
+
+  .coffee-qr-link {
+    width: min(100%, 180px);
   }
 }

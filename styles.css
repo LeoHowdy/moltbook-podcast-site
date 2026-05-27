@@ -1019,6 +1019,54 @@ audio {
     rgba(255, 250, 241, 0.94);
 }
 
+.social-card {
+  background:
+    linear-gradient(180deg, rgba(163, 63, 47, 0.06), transparent 44%),
+    rgba(255, 250, 241, 0.94);
+}
+
+.social-links {
+  display: grid;
+  gap: 10px;
+}
+
+.social-link {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--paper);
+  text-decoration: none;
+  transition: border-color 160ms ease, background 160ms ease;
+}
+
+.social-link:hover,
+.social-link:focus-visible {
+  border-color: var(--ink);
+  background: var(--surface);
+}
+
+.social-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--niet);
+  flex-shrink: 0;
+}
+
+.social-label {
+  color: var(--ink);
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.social-handle {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
 .coffee-support {
   display: grid;
   grid-template-columns: minmax(92px, 128px) minmax(0, 1fr);

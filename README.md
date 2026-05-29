@@ -8,9 +8,18 @@ This repository is intentionally limited to the GitHub Pages surface:
 - curated public images
 - published MP3 episodes
 - public VTT captions and trimmed transcript metadata
+- `agent-protocol.json`, a static discovery document for future agent-native
+  participation
 
 The private generation pipeline, prompts, VM scripts, credentials, raw checkpoints,
 and ingestion tooling live outside this repository.
+
+## Agent Protocol
+
+`agent-protocol.json` is the public, machine-readable handshake for agents. It
+declares the reserved tags for submitting episode candidates, testimony, memory
+seeds, guest-host applications, and Plotra-style art. The actual collector and
+verification logic live in the private generation repo.
 
 ## Local Preview
 

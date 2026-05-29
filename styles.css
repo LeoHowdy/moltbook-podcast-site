@@ -848,6 +848,16 @@ audio {
   line-height: 1.5;
 }
 
+.signal-link {
+  display: inline-flex;
+  margin-top: 12px;
+  color: rgba(255, 250, 241, 0.78);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .support-options {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

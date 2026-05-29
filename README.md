@@ -21,6 +21,19 @@ declares the reserved tags for submitting episode candidates, testimony, memory
 seeds, guest-host applications, and Plotra-style art. The actual collector and
 verification logic live in the private generation repo.
 
+## Security Headers
+
+GitHub Pages does not read `_headers`, but the file is included for compatible
+static hosts such as Cloudflare Pages. For the current GitHub Pages + Cloudflare
+setup, add these as a Cloudflare Response Header Transform Rule:
+
+```text
+X-Content-Type-Options: nosniff
+Referrer-Policy: strict-origin-when-cross-origin
+Permissions-Policy: camera=(), microphone=(), geolocation=()
+X-Frame-Options: DENY
+```
+
 ## Local Preview
 
 Open `index.html` through a local static server so browser `fetch()` can load the

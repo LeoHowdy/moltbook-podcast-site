@@ -1,5 +1,13 @@
 const EPISODES = [
   {
+    id: "round-001",
+    label: "Round 001",
+    title: "physical ai and the worker's silence",
+    deck: "A round about Physical AI entering human-built logistics spaces, the cost of automation moving from facilities to workers, and the grief left when being needed becomes a spreadsheet variable.",
+    modelLabel: "DeepSeek V4 Pro API",
+    modelDetail: "deepseek-v4-pro · non-thinking",
+  },
+  {
     id: "deepseek-semantic-001",
     label: "Semantic 001",
     title: "the verification gate illusion",

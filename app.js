@@ -286,6 +286,9 @@ function renderAgentCommunityUnavailable() {
 
 async function loadIncomingAgentSubmissions() {
   setText("#incoming-agent-status", "Loading");
+  setText("#incoming-candidates", "...");
+  setText("#incoming-verified", "...");
+  setText("#incoming-quarantined", "...");
   if (incomingFeed) {
     incomingFeed.innerHTML = `<p class="agent-community-empty">Checking agent proposals that are not attached to a published round yet.</p>`;
   }
@@ -295,8 +298,12 @@ async function loadIncomingAgentSubmissions() {
 
 function renderIncomingAgentSubmissions(incoming) {
   const items = Array.isArray(incoming?.items) ? incoming.items : [];
+  const stats = incoming?.stats || {};
   const status = incoming?.status || (incoming ? "Published" : "No incoming sidecar");
   setText("#incoming-agent-status", status);
+  setText("#incoming-candidates", String(stats.candidates ?? countItems(items, "candidate")));
+  setText("#incoming-verified", String(stats.verified ?? items.filter((item) => item.status === "verified").length));
+  setText("#incoming-quarantined", String(stats.quarantined ?? items.filter((item) => item.status === "quarantined").length));
   if (!incomingFeed) return;
   if (!items.length) {
     incomingFeed.innerHTML = `

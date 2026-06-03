@@ -267,6 +267,10 @@ h2 {
 }
 
 .post-quote p {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
   margin: 0;
   font-size: 1rem;
   line-height: 1.48;
@@ -315,7 +319,128 @@ audio {
   display: grid;
   grid-template-columns: 310px minmax(0, 1fr);
   gap: 34px;
-  padding-top: 42px;
+  padding-top: 24px;
+}
+
+.front-actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 18px 0 0;
+}
+
+.front-actions a {
+  display: flex;
+  min-height: 54px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 14px;
+  border: 1px solid rgba(255, 250, 241, 0.22);
+  border-radius: 8px;
+  background: rgba(12, 12, 11, 0.5);
+  color: var(--surface);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  backdrop-filter: blur(12px);
+  transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+}
+
+.front-actions a:hover,
+.front-actions a:focus-visible {
+  border-color: var(--accent);
+  background: rgba(215, 167, 61, 0.16);
+  transform: translateY(-1px);
+}
+
+.disclosure-panel {
+  margin-top: 18px;
+  border: 1px solid rgba(23, 21, 19, 0.14);
+  border-radius: 8px;
+  background: rgba(255, 250, 241, 0.76);
+  box-shadow: 0 18px 55px rgba(23, 21, 19, 0.08);
+  backdrop-filter: blur(12px);
+}
+
+.disclosure-panel > summary {
+  display: flex;
+  min-height: 84px;
+  gap: 18px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.disclosure-panel > summary::-webkit-details-marker {
+  display: none;
+}
+
+.disclosure-panel > summary strong {
+  display: block;
+  font-size: clamp(1.2rem, 2.4vw, 1.75rem);
+  line-height: 1;
+}
+
+.disclosure-panel > summary small {
+  display: block;
+  margin-top: 7px;
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.35;
+}
+
+.disclosure-panel > summary b {
+  flex-shrink: 0;
+  min-width: 86px;
+  padding: 9px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.disclosure-panel[open] > summary {
+  border-bottom: 1px solid var(--line);
+}
+
+.disclosure-panel[open] > summary b::before {
+  content: "Close";
+}
+
+.disclosure-panel[open] > summary b {
+  font-size: 0;
+}
+
+.disclosure-panel[open] > summary b::before {
+  font-size: 0.72rem;
+}
+
+.episode-workbench .content-grid {
+  padding: 24px 20px 20px;
+}
+
+.agent-lab {
+  background: rgba(23, 21, 19, 0.88);
+  color: var(--surface);
+}
+
+.agent-lab > summary small {
+  color: rgba(255, 250, 241, 0.58);
+}
+
+.agent-lab > summary b {
+  border-color: rgba(255, 250, 241, 0.2);
+  background: rgba(255, 250, 241, 0.08);
+  color: var(--surface);
 }
 
 .agent-access-panel {
@@ -1442,6 +1567,18 @@ audio {
     grid-template-columns: 1fr;
   }
 
+  .front-actions,
+  .agent-community-grid,
+  .incoming-agent-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .disclosure-panel > summary {
+    min-height: 76px;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
   .episode-panel {
     min-height: 0;
     padding: 18px;
@@ -1454,8 +1591,40 @@ audio {
     min-height: 250px;
   }
 
+  .post-quote p {
+    -webkit-line-clamp: 4;
+  }
+
   h1 {
     max-width: 10ch;
+  }
+
+  .episode-copy .front-actions {
+    order: 3;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .episode-copy .lede {
+    display: -webkit-box;
+    order: 4;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 7;
+  }
+
+  .episode-copy .episode-browser {
+    order: 5;
+  }
+
+  .episode-copy .post-quote {
+    order: 6;
+  }
+
+  .episode-copy .front-actions a {
+    min-height: 44px;
+    padding: 0 6px;
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
   }
 
   .host-panel {
@@ -1502,10 +1671,6 @@ audio {
     flex-direction: column;
   }
 
-  .agent-community-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
   .manifesto-grid,
   .support-options {
     grid-template-columns: 1fr;
@@ -1518,10 +1683,6 @@ audio {
   }
 
   .episode-stats {
-    grid-template-columns: 1fr;
-  }
-
-  .agent-community-grid {
     grid-template-columns: 1fr;
   }
 

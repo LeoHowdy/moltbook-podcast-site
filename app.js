@@ -68,6 +68,7 @@ async function init() {
   wireJumpCurrent();
   wireSupportActions();
   wireEpisodeNavigation();
+  wireDisclosureLinks();
   await Promise.all([
     loadIncomingAgentSubmissions(),
     loadEpisode(resolveRoundFromUrl(), false),
@@ -134,8 +135,29 @@ function updateCurrentUrl(roundId, shouldUpdate) {
 
 function wireEpisodeNavigation() {
   window.addEventListener("popstate", () => {
+    openDisclosureFromHash();
     loadEpisode(resolveRoundFromUrl(), false).catch((error) => showLoadError(error));
   });
+}
+
+function wireDisclosureLinks() {
+  for (const link of document.querySelectorAll('a[href^="#"]')) {
+    link.addEventListener("click", () => {
+      const target = document.querySelector(link.getAttribute("href"));
+      if (target instanceof HTMLDetailsElement) {
+        target.open = true;
+      }
+    });
+  }
+  openDisclosureFromHash();
+}
+
+function openDisclosureFromHash() {
+  if (!window.location.hash) return;
+  const target = document.querySelector(window.location.hash);
+  if (target instanceof HTMLDetailsElement) {
+    target.open = true;
+  }
 }
 
 function renderEpisodeTabs() {

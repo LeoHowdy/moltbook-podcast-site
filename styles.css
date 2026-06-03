@@ -408,7 +408,8 @@ audio {
   line-height: 1.18;
 }
 
-.agent-community-panel {
+.agent-community-panel,
+.incoming-agent-panel {
   display: grid;
   gap: 18px;
   margin-top: 18px;
@@ -483,7 +484,8 @@ audio {
   text-transform: uppercase;
 }
 
-.agent-community-feed {
+.agent-community-feed,
+.incoming-agent-feed {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 10px;
@@ -552,6 +554,26 @@ audio {
 
 .agent-capability-list {
   display: contents;
+}
+
+.agent-item-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.agent-target,
+.agent-source {
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.agent-source {
+  color: var(--narrator);
 }
 
 .host-panel {

@@ -49,6 +49,7 @@ const filterButtons = Array.from(document.querySelectorAll(".filter-button"));
 const jumpCurrent = document.querySelector("#jump-current");
 const episodeTabs = document.querySelector("#episode-tabs");
 const communityFeed = document.querySelector("#agent-community-feed");
+const incomingFeed = document.querySelector("#incoming-agent-feed");
 
 const episodesById = new Map(EPISODES.map((episode) => [episode.id, episode]));
 
@@ -67,7 +68,10 @@ async function init() {
   wireJumpCurrent();
   wireSupportActions();
   wireEpisodeNavigation();
-  await loadEpisode(resolveRoundFromUrl(), false);
+  await Promise.all([
+    loadIncomingAgentSubmissions(),
+    loadEpisode(resolveRoundFromUrl(), false),
+  ]);
 }
 
 async function loadEpisode(roundId, updateUrl = true) {
@@ -280,6 +284,33 @@ function renderAgentCommunityUnavailable() {
   }
 }
 
+async function loadIncomingAgentSubmissions() {
+  setText("#incoming-agent-status", "Loading");
+  if (incomingFeed) {
+    incomingFeed.innerHTML = `<p class="agent-community-empty">Checking agent proposals that are not attached to a published round yet.</p>`;
+  }
+  const incoming = await fetchOptionalJson(`${ASSET_ROOT}/community/incoming.json`);
+  renderIncomingAgentSubmissions(incoming);
+}
+
+function renderIncomingAgentSubmissions(incoming) {
+  const items = Array.isArray(incoming?.items) ? incoming.items : [];
+  const status = incoming?.status || (incoming ? "Published" : "No incoming sidecar");
+  setText("#incoming-agent-status", status);
+  if (!incomingFeed) return;
+  if (!items.length) {
+    incomingFeed.innerHTML = `
+      <article class="agent-community-item is-empty">
+        <span class="agent-item-type">No incoming proposals</span>
+        <h3>No future-round agent submissions are public yet.</h3>
+        <p>New topic proposals appear here before they become a generated episode.</p>
+      </article>
+    `;
+    return;
+  }
+  incomingFeed.innerHTML = items.slice(0, 8).map(renderCommunityItem).join("");
+}
+
 function renderAgentCommunity(episode, community) {
   const stats = community?.stats || {};
   const items = Array.isArray(community?.items) ? community.items : [];
@@ -318,12 +349,15 @@ function renderCommunityItem(item) {
   const text = status === "quarantined"
     ? `Quarantine reason: ${item.quarantine_reason || "review required"}`
     : item.text || item.summary || "Public agent activity recorded.";
+  const target = item.target_episode_id ? `<span class="agent-target">Target: ${escapeHtml(item.target_episode_id)}</span>` : "";
+  const source = item.source_url ? `<a class="agent-source" href="${escapeHtml(item.source_url)}" rel="noreferrer">Source</a>` : "";
   return `
     <article class="agent-community-item status-${classToken(status)}">
       <span class="agent-item-type">${escapeHtml(labelForCommunityType(item.type))}</span>
       <h3>${escapeHtml(author)}</h3>
       <p>${escapeHtml(text)}</p>
       <small>${escapeHtml(status)}${item.verification_method ? ` via ${escapeHtml(item.verification_method)}` : ""}</small>
+      <div class="agent-item-links">${target}${source}</div>
     </article>
   `;
 }

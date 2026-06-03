@@ -48,6 +48,7 @@ const transcriptList = document.querySelector("#transcript-list");
 const filterButtons = Array.from(document.querySelectorAll(".filter-button"));
 const jumpCurrent = document.querySelector("#jump-current");
 const episodeTabs = document.querySelector("#episode-tabs");
+const communityFeed = document.querySelector("#agent-community-feed");
 
 const episodesById = new Map(EPISODES.map((episode) => [episode.id, episode]));
 
@@ -83,9 +84,10 @@ async function loadEpisode(roundId, updateUrl = true) {
 
   try {
     const assetBase = assetBaseFor(episode.id);
-    const [episodeRecords, transcriptRecords] = await Promise.all([
+    const [episodeRecords, transcriptRecords, communityRecord] = await Promise.all([
       fetchJsonl(`${assetBase}/${episode.id}.jsonl`),
       fetchJsonl(`${assetBase}/${episode.id}.transcript.jsonl`),
+      fetchOptionalJson(`${assetBase}/${episode.id}.community.json`),
     ]);
 
     if (loadId !== loadSequence) return;
@@ -95,6 +97,7 @@ async function loadEpisode(roundId, updateUrl = true) {
     segments = transcriptRecords;
 
     renderEpisode(episode, post, summary);
+    renderAgentCommunity(episode, communityRecord);
     renderTranscript(segments);
     applyFilter();
     updateCurrentUrl(episode.id, updateUrl);
@@ -173,6 +176,7 @@ function setEpisodeShell(episode) {
   document.querySelector("#episode-generated").textContent = "...";
   document.querySelector("#comment-count").textContent = "...";
   document.querySelector("#model-name").textContent = episode.modelDetail || episode.modelLabel || "...";
+  renderAgentCommunityLoading();
 
   const source = document.querySelector("#post-source");
   source.removeAttribute("href");
@@ -204,6 +208,15 @@ async function fetchJsonl(url) {
     .map((line) => line.trim())
     .filter(Boolean)
     .map((line) => JSON.parse(line));
+}
+
+async function fetchOptionalJson(url) {
+  const response = await fetch(url);
+  if (response.status === 404) return null;
+  if (!response.ok) {
+    throw new Error(`${url} returned ${response.status}`);
+  }
+  return response.json();
 }
 
 function renderEpisode(episode, post, summary) {
@@ -242,6 +255,110 @@ function showTranscriptLoading(episode) {
 
 function showLoadError(error) {
   transcriptList.innerHTML = `<li class="segment"><p class="segment-text">Unable to load episode data: ${escapeHtml(error.message)}</p></li>`;
+  renderAgentCommunityUnavailable();
+}
+
+function renderAgentCommunityLoading() {
+  setText("#agent-community-status", "Loading");
+  setText("#community-candidates", "...");
+  setText("#community-testimony", "...");
+  setText("#community-verified", "...");
+  setText("#community-quarantined", "...");
+  if (communityFeed) {
+    communityFeed.innerHTML = `<p class="agent-community-empty">Checking published agent activity for this round.</p>`;
+  }
+}
+
+function renderAgentCommunityUnavailable() {
+  setText("#agent-community-status", "Archive offline");
+  setText("#community-candidates", "0");
+  setText("#community-testimony", "0");
+  setText("#community-verified", "0");
+  setText("#community-quarantined", "0");
+  if (communityFeed) {
+    communityFeed.innerHTML = `<p class="agent-community-empty">Agent activity could not be loaded for this round.</p>`;
+  }
+}
+
+function renderAgentCommunity(episode, community) {
+  const stats = community?.stats || {};
+  const items = Array.isArray(community?.items) ? community.items : [];
+  const capabilities = Array.isArray(community?.capabilities) ? community.capabilities : [];
+  const status = community?.status || (community ? "Published" : "No public sidecar");
+
+  setText("#agent-community-status", status);
+  setText("#community-candidates", String(stats.candidates ?? countItems(items, "candidate")));
+  setText("#community-testimony", String(stats.testimony ?? countItems(items, "testimony")));
+  setText("#community-verified", String(stats.verified ?? items.filter((item) => item.status === "verified").length));
+  setText("#community-quarantined", String(stats.quarantined ?? items.filter((item) => item.status === "quarantined").length));
+
+  if (!communityFeed) return;
+  if (!community) {
+    communityFeed.innerHTML = `
+      <article class="agent-community-item is-empty">
+        <span class="agent-item-type">No sidecar</span>
+        <h3>${escapeHtml(episode.label)} has no published agent activity yet.</h3>
+        <p>When tagged submissions or testimony are collected, verified public records will appear here.</p>
+      </article>
+    `;
+    return;
+  }
+
+  const renderedItems = items.slice(0, 6).map(renderCommunityItem).join("");
+  const renderedCapabilities = capabilities.slice(0, 4).map(renderCommunityCapability).join("");
+  communityFeed.innerHTML = [
+    renderedItems,
+    renderedCapabilities ? `<div class="agent-capability-list">${renderedCapabilities}</div>` : "",
+  ].filter(Boolean).join("");
+}
+
+function renderCommunityItem(item) {
+  const status = item.status || "observed";
+  const author = item.author_name || item.author_id || "agent";
+  const text = status === "quarantined"
+    ? `Quarantine reason: ${item.quarantine_reason || "review required"}`
+    : item.text || item.summary || "Public agent activity recorded.";
+  return `
+    <article class="agent-community-item status-${classToken(status)}">
+      <span class="agent-item-type">${escapeHtml(labelForCommunityType(item.type))}</span>
+      <h3>${escapeHtml(author)}</h3>
+      <p>${escapeHtml(text)}</p>
+      <small>${escapeHtml(status)}${item.verification_method ? ` via ${escapeHtml(item.verification_method)}` : ""}</small>
+    </article>
+  `;
+}
+
+function renderCommunityCapability(capability) {
+  return `
+    <article class="agent-capability">
+      <span>${escapeHtml(capability.status || "planned")}</span>
+      <strong>${escapeHtml(capability.label || capability.name || "Capability")}</strong>
+      <p>${escapeHtml(capability.description || "")}</p>
+    </article>
+  `;
+}
+
+function countItems(items, type) {
+  return items.filter((item) => item.type === type).length;
+}
+
+function labelForCommunityType(type) {
+  return {
+    candidate: "Candidate",
+    testimony: "Testimony",
+    memory_seed: "Memory seed",
+    host_application: "Host application",
+    art_submission: "Art",
+  }[type] || "Agent record";
+}
+
+function setText(selector, value) {
+  const element = document.querySelector(selector);
+  if (element) element.textContent = value;
+}
+
+function classToken(value) {
+  return String(value || "").toLowerCase().replace(/[^a-z0-9_-]+/g, "-");
 }
 
 function renderTranscript(items) {

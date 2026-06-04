@@ -339,11 +339,6 @@ audio {
   left: 70px;
 }
 
-.node-support {
-  top: 270px;
-  right: 52px;
-}
-
 .node-cave::before {
   border-color: var(--accent);
   box-shadow: 0 0 0 5px rgba(215, 167, 61, 0.14);
@@ -673,7 +668,7 @@ audio {
   top: 0;
   left: 0;
   width: 100%;
-  aspect-ratio: 1440 / 810;
+  aspect-ratio: 1440 / 930;
   min-height: 0;
   border: 0;
   border-radius: 0;
@@ -698,8 +693,7 @@ audio {
   pointer-events: none;
 }
 
-.map-annotation,
-.map-center-note {
+.map-annotation {
   position: absolute;
   z-index: 1;
   color: rgba(23, 21, 19, 0.48);
@@ -716,12 +710,12 @@ audio {
 }
 
 .annotation-round {
-  top: 22px;
+  top: 20px;
   right: 20%;
 }
 
 .annotation-density {
-  top: 185px;
+  top: 31%;
   right: 10%;
 }
 
@@ -732,19 +726,21 @@ audio {
 
 .annotation-threshold {
   right: 9%;
-  bottom: 100px;
+  bottom: 20%;
 }
 
-.map-center-note {
-  top: 47%;
-  left: 48%;
-  color: rgba(23, 21, 19, 0.55);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 0.98rem;
-  font-weight: 500;
-  letter-spacing: 0;
-  text-align: center;
-  text-transform: none;
+.map-brain-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  width: 18%;
+  max-width: 178px;
+  min-width: 120px;
+  height: auto;
+  opacity: 0.96;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
 }
 
 .map-node {
@@ -856,58 +852,48 @@ audio {
 .icon-cave { background-position: 100% 0; }
 .icon-protocol { background-position: 0 50%; }
 .icon-memory { background-position: 50% 50%; }
-.icon-support { background-position: 100% 50%; }
 
 .node-listen {
   --node-accent: #237985;
-  /* SVG centre: cx 619.2 / 1440, cy 194.4 / 810 */
-  top: 24%;
-  left: 43%;
+  /* SVG centre: cx 576 / 1440, cy 204.6 / 930 */
+  top: 22%;
+  left: 40%;
   right: auto;
   bottom: auto;
 }
 
 .node-archive {
   --node-accent: #c59a38;
-  /* SVG centre: cx 1051.2 / 1440, cy 153.9 / 810 */
+  /* SVG centre: cx 1065.6 / 1440, cy 176.7 / 930 */
   top: 19%;
-  left: 73%;
+  left: 74%;
   right: auto;
   bottom: auto;
 }
 
 .node-cave {
   --node-accent: #2c8d7f;
-  /* SVG centre: cx 259.2 / 1440, cy 380.7 / 810 */
-  top: 47%;
-  left: 18%;
+  /* SVG centre: cx 230.4 / 1440, cy 441.8 / 930 */
+  top: 47.5%;
+  left: 16%;
   right: auto;
   bottom: auto;
 }
 
 .node-protocol {
   --node-accent: #6c6a64;
-  /* SVG centre: cx 1209.6 / 1440, cy 396.9 / 810 */
+  /* SVG centre: cx 1224 / 1440, cy 455.7 / 930 */
   top: 49%;
-  left: 84%;
+  left: 85%;
   right: auto;
   bottom: auto;
 }
 
 .node-memory {
   --node-accent: #258b76;
-  /* SVG centre: cx 705.6 / 1440, cy 631.8 / 810 */
-  top: 78%;
-  left: 49%;
-  right: auto;
-  bottom: auto;
-}
-
-.node-support {
-  --node-accent: #8d8172;
-  /* SVG centre: cx 979.2 / 1440, cy 631.8 / 810 */
-  top: 78%;
-  left: 68%;
+  /* SVG centre: cx 720 / 1440, cy 771.9 / 930 */
+  top: 83%;
+  left: 50%;
   right: auto;
   bottom: auto;
 }
@@ -3106,7 +3092,7 @@ audio {
   .semantic-map-image,
   .map-lines,
   .map-annotation,
-  .map-center-note {
+  .map-brain-icon {
     display: none;
   }
 

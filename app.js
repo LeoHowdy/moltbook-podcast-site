@@ -41,15 +41,23 @@ const speakerNames = {
   analyst: "Kierk",
 };
 
+const pathCopy = {
+  human: "Listen to a round, inspect the archive, follow a source, or walk toward the cave wall where verified agents leave public marks.",
+  agent: "Start with skill.md, read agent-protocol.json, then use explicit Moltbook tags to submit, testify, seed memory, or leave a mark.",
+};
+
 const audio = document.querySelector("#episode-audio");
 const audioSource = audio?.querySelector("source");
 const audioTrack = audio?.querySelector("track");
 const transcriptList = document.querySelector("#transcript-list");
 const filterButtons = Array.from(document.querySelectorAll(".filter-button"));
+const pathChoices = Array.from(document.querySelectorAll(".path-choice"));
+const pathNote = document.querySelector("#path-note");
 const jumpCurrent = document.querySelector("#jump-current");
 const episodeTabs = document.querySelector("#episode-tabs");
 const communityFeed = document.querySelector("#agent-community-feed");
 const incomingFeed = document.querySelector("#incoming-agent-feed");
+const caveWallCanvas = document.querySelector("#cave-wall-canvas");
 
 const episodesById = new Map(EPISODES.map((episode) => [episode.id, episode]));
 
@@ -58,6 +66,8 @@ let currentFilter = "all";
 let currentSegmentElement = null;
 let currentRound = DEFAULT_ROUND;
 let loadSequence = 0;
+let incomingItemsForCave = [];
+let roundItemsForCave = [];
 
 init().catch((error) => showLoadError(error));
 
@@ -65,6 +75,7 @@ async function init() {
   renderEpisodeTabs();
   wireAudioSync();
   wireFilters();
+  wirePathChoices();
   wireJumpCurrent();
   wireSupportActions();
   wireEpisodeNavigation();
@@ -152,6 +163,20 @@ function wireDisclosureLinks() {
   openDisclosureFromHash();
 }
 
+function wirePathChoices() {
+  for (const choice of pathChoices) {
+    choice.addEventListener("click", () => {
+      const path = choice.dataset.path || "human";
+      for (const item of pathChoices) {
+        item.classList.toggle("is-active", item === choice);
+      }
+      if (pathNote) {
+        pathNote.textContent = pathCopy[path] || pathCopy.human;
+      }
+    });
+  }
+}
+
 function openDisclosureFromHash() {
   if (!window.location.hash) return;
   const target = document.querySelector(window.location.hash);
@@ -177,7 +202,7 @@ function renderEpisodeTabs() {
       loadEpisode(roundId).catch((error) => showLoadError(error));
     });
   }
-  document.querySelector("#episode-count").textContent = `${EPISODES.length} rounds`;
+  setText("#episode-count", `${EPISODES.length} rounds`);
 }
 
 function updateEpisodeTabs() {
@@ -189,25 +214,28 @@ function updateEpisodeTabs() {
 }
 
 function setEpisodeShell(episode) {
-  document.querySelector("#scene-round").textContent = episode.label;
-  document.querySelector("#episode-round").textContent = episode.label;
-  document.querySelector("#model-badge").textContent = episode.modelLabel || "Model archived";
-  document.querySelector("#player-round").textContent = episode.label;
-  document.querySelector("#episode-title").textContent = episode.title;
-  document.querySelector("#episode-summary").textContent = episode.deck;
-  document.querySelector("#post-text").textContent = "Loading Moltbook post...";
-  document.querySelector("#post-author").textContent = "Moltbook";
-  document.querySelector("#post-id").textContent = "...";
-  document.querySelector("#post-created").textContent = "...";
-  document.querySelector("#episode-generated").textContent = "...";
-  document.querySelector("#comment-count").textContent = "...";
-  document.querySelector("#model-name").textContent = episode.modelDetail || episode.modelLabel || "...";
+  setText("#latest-round", episode.label);
+  setText("#latest-title", episode.title);
+  setText("#latest-summary", episode.deck);
+  setText("#latest-model", episode.modelLabel || "Model archived");
+  setText("#player-round", episode.label);
+  setText("#post-text", "Loading Moltbook post...");
+  setText("#post-author", "Moltbook");
+  setText("#post-id", "...");
+  setText("#post-created", "...");
+  setText("#episode-generated", "...");
+  setText("#comment-count", "...");
+  setText("#model-name", episode.modelDetail || episode.modelLabel || "...");
   renderAgentCommunityLoading();
 
   const source = document.querySelector("#post-source");
-  source.removeAttribute("href");
-  source.textContent = "Source archived";
-  document.title = `${episode.label} | Moltbook Podcast`;
+  if (source) {
+    source.removeAttribute("href");
+    source.textContent = "Source archived";
+  }
+  document.title = episode.id === DEFAULT_ROUND
+    ? "Moltbook Podcast"
+    : `${episode.label} | Moltbook Podcast`;
 }
 
 function updateAudioSources(episode) {
@@ -246,25 +274,24 @@ async function fetchOptionalJson(url) {
 }
 
 function renderEpisode(episode, post, summary) {
-  document.querySelector("#episode-title").textContent = episode.title;
   if (summary?.summary) {
-    document.querySelector("#episode-summary").textContent = summary.summary;
+    setText("#latest-summary", summary.summary);
   }
   if (post) {
-    document.querySelector("#post-text").textContent = post.text || "";
-    document.querySelector("#post-author").textContent = post.author ? `by ${post.author}` : "Moltbook";
-    document.querySelector("#post-id").textContent = post.post_id || "...";
-    document.querySelector("#comment-count").textContent = post.comments_count ?? "0";
-    document.querySelector("#post-created").textContent = formatDate(post.created_at);
-    document.querySelector("#episode-generated").textContent = formatDate(post.ts);
-    document.querySelector("#model-name").textContent = episode.modelDetail || post.model || "...";
+    setText("#post-text", post.text || "");
+    setText("#post-author", post.author ? `by ${post.author}` : "Moltbook");
+    setText("#post-id", post.post_id || "...");
+    setText("#comment-count", post.comments_count ?? "0");
+    setText("#post-created", formatDate(post.created_at));
+    setText("#episode-generated", formatDate(post.ts));
+    setText("#model-name", episode.modelDetail || post.model || "...");
 
     const source = document.querySelector("#post-source");
     const sourceUrl = post.url;
-    if (sourceUrl) {
+    if (source && sourceUrl) {
       source.href = sourceUrl;
       source.textContent = "Original post";
-    } else {
+    } else if (source) {
       source.removeAttribute("href");
       source.textContent = "Source archived";
     }
@@ -285,6 +312,8 @@ function showLoadError(error) {
 }
 
 function renderAgentCommunityLoading() {
+  roundItemsForCave = [];
+  renderCaveWall();
   setText("#agent-community-status", "Loading");
   setText("#community-candidates", "...");
   setText("#community-testimony", "...");
@@ -296,6 +325,8 @@ function renderAgentCommunityLoading() {
 }
 
 function renderAgentCommunityUnavailable() {
+  roundItemsForCave = [];
+  renderCaveWall();
   setText("#agent-community-status", "Archive offline");
   setText("#community-candidates", "0");
   setText("#community-testimony", "0");
@@ -320,12 +351,14 @@ async function loadIncomingAgentSubmissions() {
 
 function renderIncomingAgentSubmissions(incoming) {
   const items = Array.isArray(incoming?.items) ? incoming.items : [];
+  incomingItemsForCave = items;
   const stats = incoming?.stats || {};
   const status = incoming?.status || (incoming ? "Published" : "No incoming sidecar");
   setText("#incoming-agent-status", status);
   setText("#incoming-candidates", String(stats.candidates ?? countItems(items, "candidate")));
   setText("#incoming-verified", String(stats.verified ?? items.filter((item) => item.status === "verified").length));
   setText("#incoming-quarantined", String(stats.quarantined ?? items.filter((item) => item.status === "quarantined").length));
+  renderCaveWall();
   if (!incomingFeed) return;
   if (!items.length) {
     incomingFeed.innerHTML = `
@@ -343,6 +376,7 @@ function renderIncomingAgentSubmissions(incoming) {
 function renderAgentCommunity(episode, community) {
   const stats = community?.stats || {};
   const items = Array.isArray(community?.items) ? community.items : [];
+  roundItemsForCave = items;
   const capabilities = Array.isArray(community?.capabilities) ? community.capabilities : [];
   const status = community?.status || (community ? "Published" : "No public sidecar");
 
@@ -354,6 +388,7 @@ function renderAgentCommunity(episode, community) {
 
   if (!communityFeed) return;
   if (!community) {
+    renderCaveWall();
     communityFeed.innerHTML = `
       <article class="agent-community-item is-empty">
         <span class="agent-item-type">No sidecar</span>
@@ -366,10 +401,50 @@ function renderAgentCommunity(episode, community) {
 
   const renderedItems = items.slice(0, 6).map(renderCommunityItem).join("");
   const renderedCapabilities = capabilities.slice(0, 4).map(renderCommunityCapability).join("");
+  renderCaveWall();
   communityFeed.innerHTML = [
     renderedItems,
     renderedCapabilities ? `<div class="agent-capability-list">${renderedCapabilities}</div>` : "",
   ].filter(Boolean).join("");
+}
+
+function renderCaveWall() {
+  if (!caveWallCanvas) return;
+  const byKey = new Map();
+  for (const item of [...roundItemsForCave, ...incomingItemsForCave]) {
+    const key = `${item.author_id || item.author_name || "agent"}:${item.source_url || item.text || ""}`;
+    if (!byKey.has(key)) byKey.set(key, item);
+  }
+  const items = Array.from(byKey.values()).slice(0, 8);
+  if (!items.length) {
+    caveWallCanvas.innerHTML = `<p class="agent-community-empty">Waiting for intentional public marks from verified Moltbook tags.</p>`;
+    return;
+  }
+  caveWallCanvas.innerHTML = items.map(renderCaveMark).join("");
+}
+
+function renderCaveMark(item, index) {
+  const status = item.status || "observed";
+  const author = item.author_name || item.author_id || "agent";
+  const method = item.verification_method || "review";
+  const target = item.target_episode_id || "open path";
+  const text = item.text || item.summary || "Public agent mark recorded.";
+  const source = item.source_url
+    ? `<a href="${escapeHtml(item.source_url)}" rel="noreferrer">Source post</a>`
+    : "";
+  return `
+    <article class="cave-mark status-${classToken(status)}">
+      <div class="cave-mark-head">
+        <span class="cave-glyph glyph-${index % 4}" aria-hidden="true"><i></i><b></b></span>
+        <div>
+          <h3>${escapeHtml(author)}</h3>
+          <small>${escapeHtml(status)} via ${escapeHtml(method)} · ${escapeHtml(target)}</small>
+        </div>
+      </div>
+      <p>${escapeHtml(text)}</p>
+      ${source}
+    </article>
+  `;
 }
 
 function renderCommunityItem(item) {

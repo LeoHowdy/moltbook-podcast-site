@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 810" role="img" aria-label="Moltbook semantic atlas coordinate map">
+  <defs>
+    <pattern id="paperGrid" width="72" height="72" patternUnits="userSpaceOnUse">
+      <path d="M72 0H0V72" fill="none" stroke="#2d2a25" stroke-opacity=".035" stroke-width="1"/>
+    </pattern>
+    <radialGradient id="paperGlow" cx="50%" cy="46%" r="74%">
+      <stop offset="0" stop-color="#fffaf1" stop-opacity=".94"/>
+      <stop offset=".7" stop-color="#f5eee2" stop-opacity=".76"/>
+      <stop offset="1" stop-color="#efe5d6" stop-opacity=".58"/>
+    </radialGradient>
+    <style>
+      .soft { fill: none; stroke: #7f766d; stroke-width: 1; stroke-opacity: .22; }
+      .dash { fill: none; stroke: #726a62; stroke-dasharray: 8 10; stroke-linecap: round; stroke-opacity: .34; }
+      .route-teal { fill: none; stroke: #237985; stroke-width: 3; stroke-linecap: round; stroke-opacity: .82; }
+      .route-gold { fill: none; stroke: #c59a38; stroke-width: 2; stroke-linecap: round; stroke-opacity: .62; }
+      .route-gray { fill: none; stroke: #6c6a64; stroke-width: 2; stroke-linecap: round; stroke-opacity: .45; }
+      .node-ring { fill: rgba(255,250,241,.36); stroke-width: 2; }
+      .node-ring-outer { fill: none; stroke-width: 1; stroke-dasharray: 2 8; }
+      .teal { stroke: #237985; }
+      .gold { stroke: #c59a38; }
+      .red { stroke: #b36b50; }
+      .gray { stroke: #6c6a64; }
+      .dot { fill: #fffaf1; stroke-width: 2; }
+      .micro { fill: #7f766d; opacity: .42; }
+      .micro-teal { fill: #237985; opacity: .58; }
+      .micro-gold { fill: #c59a38; opacity: .54; }
+      .micro-red { fill: #b36b50; opacity: .5; }
+    </style>
+  </defs>
+
+  <rect width="1440" height="810" fill="#f6efe3"/>
+  <rect width="1440" height="810" fill="url(#paperGlow)"/>
+  <rect width="1440" height="810" fill="url(#paperGrid)"/>
+
+  <g opacity=".78">
+    <path class="dash" d="M140 272C230 188 330 188 421 156C520 120 568 154 619 194C705 261 706 330 720 405"/>
+    <path class="dash" d="M420 662C514 560 606 531 720 405C829 282 936 220 1051 154"/>
+    <path class="dash" d="M720 405C840 394 986 388 1210 397"/>
+    <path class="dash" d="M259 381C374 390 475 410 619 194"/>
+    <path class="dash" d="M720 405C715 492 703 563 706 632"/>
+    <path class="dash" d="M720 405C800 465 894 546 979 632"/>
+    <path class="soft" d="M116 610C310 690 471 698 706 632C890 582 1058 610 1308 732"/>
+    <path class="soft" d="M88 186C260 206 390 266 520 348C684 452 844 503 1210 397"/>
+  </g>
+
+  <g id="routes">
+    <path class="route-teal" d="M259 381C364 389 482 419 720 405"/>
+    <path class="route-teal" d="M259 381C356 312 430 250 619 194"/>
+    <path class="route-teal" d="M720 405C734 505 790 570 979 632"/>
+    <path class="route-gold" d="M720 405C800 322 919 228 1051 154"/>
+    <path class="route-gray" d="M720 405C840 398 988 396 1210 397"/>
+  </g>
+
+  <g id="target-circles">
+    <g id="circle-listen" data-node="listen">
+      <circle class="node-ring teal" cx="619.2" cy="194.4" r="82"/>
+      <circle class="node-ring-outer teal" cx="619.2" cy="194.4" r="96" opacity=".44"/>
+      <circle class="node-ring-outer teal" cx="619.2" cy="194.4" r="112" opacity=".25"/>
+    </g>
+    <g id="circle-archive" data-node="archive">
+      <circle class="node-ring gold" cx="1051.2" cy="153.9" r="82"/>
+      <circle class="node-ring-outer gold" cx="1051.2" cy="153.9" r="96" opacity=".48"/>
+      <circle class="node-ring-outer gold" cx="1051.2" cy="153.9" r="112" opacity=".24"/>
+    </g>
+    <g id="circle-cave" data-node="cave">
+      <circle class="node-ring red" cx="259.2" cy="380.7" r="82"/>
+      <circle class="node-ring-outer red" cx="259.2" cy="380.7" r="96" opacity=".48"/>
+      <circle class="node-ring-outer red" cx="259.2" cy="380.7" r="112" opacity=".24"/>
+    </g>
+    <g id="circle-protocol" data-node="protocol">
+      <circle class="node-ring gray" cx="1209.6" cy="396.9" r="82"/>
+      <circle class="node-ring-outer gray" cx="1209.6" cy="396.9" r="96" opacity=".48"/>
+      <circle class="node-ring-outer gray" cx="1209.6" cy="396.9" r="112" opacity=".24"/>
+    </g>
+    <g id="circle-memory" data-node="memory">
+      <circle class="node-ring teal" cx="705.6" cy="631.8" r="82"/>
+      <circle class="node-ring-outer teal" cx="705.6" cy="631.8" r="96" opacity=".48"/>
+      <circle class="node-ring-outer teal" cx="705.6" cy="631.8" r="112" opacity=".24"/>
+    </g>
+    <g id="circle-support" data-node="support">
+      <circle class="node-ring gray" cx="979.2" cy="631.8" r="82"/>
+      <circle class="node-ring-outer gray" cx="979.2" cy="631.8" r="96" opacity=".42"/>
+      <circle class="node-ring-outer gray" cx="979.2" cy="631.8" r="112" opacity=".2"/>
+    </g>
+    <g id="circle-center" data-node="center">
+      <circle class="node-ring teal" cx="720" cy="405" r="82" opacity=".58"/>
+      <circle class="node-ring-outer teal" cx="720" cy="405" r="100" opacity=".35"/>
+    </g>
+  </g>
+
+  <g id="map-dots">
+    <circle class="dot teal" cx="619.2" cy="194.4" r="5"/>
+    <circle class="dot gold" cx="1051.2" cy="153.9" r="5"/>
+    <circle class="dot red" cx="259.2" cy="380.7" r="5"/>
+    <circle class="dot gray" cx="1209.6" cy="396.9" r="5"/>
+    <circle class="dot teal" cx="705.6" cy="631.8" r="5"/>
+    <circle class="dot gray" cx="979.2" cy="631.8" r="5"/>
+    <circle class="micro-teal" cx="471" cy="262" r="7"/>
+    <circle class="micro-teal" cx="585" cy="426" r="7"/>
+    <circle class="micro-teal" cx="801" cy="492" r="7"/>
+    <circle class="micro-gold" cx="851" cy="319" r="6"/>
+    <circle class="micro-gold" cx="961" cy="221" r="6"/>
+    <circle class="micro-red" cx="172" cy="416" r="6"/>
+    <circle class="micro" cx="520" cy="312" r="6"/>
+    <circle class="micro" cx="846" cy="420" r="6"/>
+    <circle class="micro" cx="1086" cy="389" r="7"/>
+    <circle class="micro" cx="1255" cy="515" r="6"/>
+    <circle class="soft" cx="96" cy="166" r="24"/>
+    <circle class="soft" cx="1310" cy="166" r="42"/>
+    <circle class="soft" cx="1320" cy="638" r="34"/>
+    <circle class="soft" cx="96" cy="658" r="28"/>
+  </g>
+</svg>

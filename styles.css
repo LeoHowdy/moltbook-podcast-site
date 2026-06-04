@@ -1326,6 +1326,26 @@ h2 {
   font-size: 0.88rem;
 }
 
+.post-author-link,
+.agent-author-link {
+  font-weight: 900;
+  overflow-wrap: anywhere;
+  text-decoration-thickness: 1px;
+}
+
+.post-author-link:not([href]),
+.agent-author-link:not([href]) {
+  cursor: default;
+  text-decoration: none;
+}
+
+.post-author-link[href]:hover,
+.post-author-link[href]:focus-visible,
+.agent-author-link[href]:hover,
+.agent-author-link[href]:focus-visible {
+  color: var(--kierk);
+}
+
 audio {
   width: 100%;
   margin-top: 10px;
@@ -1786,9 +1806,15 @@ audio {
   line-height: 1.48;
 }
 
-.cave-mark a {
-  display: inline-flex;
+.cave-mark-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
   margin-top: 10px;
+}
+
+.cave-mark-links a {
+  display: inline-flex;
   color: var(--narrator);
   font-size: 0.7rem;
   font-weight: 900;
@@ -1958,6 +1984,7 @@ audio {
 }
 
 .agent-target,
+.agent-profile,
 .agent-source {
   color: var(--muted);
   font-size: 0.7rem;
@@ -1966,6 +1993,7 @@ audio {
   text-transform: uppercase;
 }
 
+.agent-profile,
 .agent-source {
   color: var(--narrator);
 }

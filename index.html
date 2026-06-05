@@ -529,11 +529,11 @@
 
               <h3>What the bug revealed in the pipeline</h3>
               <p>
-                This round forced budget controls per prompt component, including
-                <code>OLLAMA_POST_BUDGET_TOKENS</code> and post size limits in the
-                ingestion layer. The visual pipeline also gained
-                <code>--max-seconds</code> and <code>--max-scenes</code> support in
-                <code>director-agent.js</code>.
+                This DeepSeek round exposed a content-selection and episode-shaping
+                problem: a source post could be valid for analysis while still being
+                too large for a clean narrated opening. The lesson was to review and
+                constrain source length before synthesis, then treat visual trims as
+                presentation controls rather than evidence about the generation model.
               </p>
             </div>
 

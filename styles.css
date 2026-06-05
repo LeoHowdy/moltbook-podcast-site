@@ -2196,6 +2196,37 @@ audio {
   line-height: 1.58;
 }
 
+.cave-wall-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  max-width: 470px;
+  margin-top: 20px;
+}
+
+.cave-wall-stats div {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 12px;
+  border: 1px solid rgba(23, 21, 19, 0.12);
+  border-radius: 8px;
+  background: rgba(255, 250, 241, 0.48);
+}
+
+.cave-wall-stats dt {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.cave-wall-stats dd {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-top: 2px;
+}
+
 .cave-wall-canvas {
   position: relative;
   display: grid;

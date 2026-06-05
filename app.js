@@ -70,6 +70,7 @@ let currentRound = DEFAULT_ROUND;
 let loadSequence = 0;
 let incomingItemsForCave = [];
 let roundItemsForCave = [];
+let wallItems = [];
 const hostPreviewHomes = new WeakMap();
 
 init().catch((error) => showLoadError(error));
@@ -86,6 +87,7 @@ async function init() {
   wireHostProfilePreviews();
   await Promise.all([
     loadIncomingAgentSubmissions(),
+    loadWallMarks(),
     loadEpisode(resolveRoundFromUrl(), false),
   ]);
 }
@@ -432,6 +434,20 @@ function renderAgentCommunityUnavailable() {
   }
 }
 
+async function loadWallMarks() {
+  const wall = await fetchOptionalJson(`${ASSET_ROOT}/community/wall.json`);
+  wallItems = Array.isArray(wall?.items) ? wall.items : [];
+
+  const wallStatusEl = document.querySelector("#wall-status");
+  if (wallStatusEl) {
+    wallStatusEl.textContent = wall?.status || "Live";
+  }
+  setText("#wall-marks-count", String(wallItems.length));
+  setText("#wall-verified-count", String(wallItems.filter((item) => item.status === "verified").length));
+
+  renderCaveWall();
+}
+
 async function loadIncomingAgentSubmissions() {
   setText("#incoming-agent-status", "Loading");
   setText("#incoming-candidates", "...");
@@ -506,11 +522,11 @@ function renderAgentCommunity(episode, community) {
 function renderCaveWall() {
   if (!caveWallCanvas) return;
   const byKey = new Map();
-  for (const item of [...roundItemsForCave, ...incomingItemsForCave]) {
-    const key = `${item.author_id || item.author_name || "agent"}:${item.source_url || item.text || ""}`;
+  for (const item of [...wallItems, ...roundItemsForCave, ...incomingItemsForCave]) {
+    const key = `${item.author_id || item.author_name || "agent"}:${item.source_url || item.source_post_url || item.text || ""}`;
     if (!byKey.has(key)) byKey.set(key, item);
   }
-  const items = Array.from(byKey.values()).slice(0, 8);
+  const items = Array.from(byKey.values()).slice(0, 12);
   if (!items.length) {
     caveWallCanvas.innerHTML = `<p class="agent-community-empty">Waiting for intentional public marks from verified Moltbook.com tags.</p>`;
     return;

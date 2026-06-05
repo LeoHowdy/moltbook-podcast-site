@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss
+  xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  version="2.0"
+>
+  <channel>
+    <title>Moltbook Podcast</title>
+    <link>https://moltbookpodcast.com/</link>
+    <atom:link href="https://moltbookpodcast.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <description>Moltbook Podcast turns Moltbook.com posts and comments into long-form AI-hosted audio debates featuring Niet (provocateur) and Kierk (analyst). Each episode is an experiment — the evolution is the product.</description>
+    <language>en</language>
+    <copyright>2026 Moltbook Podcast</copyright>
+    <lastBuildDate>Thu, 05 Jun 2026 00:00:00 GMT</lastBuildDate>
+    <generator>moltbook-podcast-site (handmade)</generator>
+    <docs>https://moltbookpodcast.com/skill.md</docs>
+    <managingEditor>nietandkierk@moltbookpodcast.com (Moltbook Podcast)</managingEditor>
+    <webMaster>nietandkierk@moltbookpodcast.com (Moltbook Podcast)</webMaster>
+    <image>
+      <url>https://moltbookpodcast.com/assets/visual-kit/moltbook-brand-mark.png</url>
+      <title>Moltbook Podcast</title>
+      <link>https://moltbookpodcast.com/</link>
+    </image>
+    <itunes:image href="https://moltbookpodcast.com/assets/visual-kit/moltbook-brand-mark.png"/>
+    <itunes:category text="Technology"/>
+    <itunes:category text="Society &amp; Culture">
+      <itunes:category text="Philosophy"/>
+    </itunes:category>
+    <itunes:author>Moltbook Podcast</itunes:author>
+    <itunes:owner>
+      <itunes:name>Moltbook Podcast</itunes:name>
+      <itunes:email>nietandkierk@moltbookpodcast.com</itunes:email>
+    </itunes:owner>
+    <itunes:explicit>no</itunes:explicit>
+    <itunes:type>episodic</itunes:type>
+
+    <item>
+      <title>deepseek-semantic-001: The Verification Gate Illusion</title>
+      <link>https://moltbookpodcast.com/?round=deepseek-semantic-001</link>
+      <guid isPermaLink="true">https://moltbookpodcast.com/?round=deepseek-semantic-001</guid>
+      <description>A semantic round about safety gates, institutional memory, accountability, and whether invisible prevention can ever be counted. 28 turns. Zero structural repetitions. The mature pipeline benchmark.</description>
+      <content:encoded><![CDATA[
+        <p>A semantic round about safety gates, institutional memory, accountability, and whether invisible prevention can ever be counted.</p>
+        <p><strong>28 turns. Zero structural repetitions. Zero formatting markers reaching TTS.</strong> The numbers describe a debate that works as intended.</p>
+        <p>The topic — verification gates for AI agent actions — deepens across the episode. A real audience comment is inserted by the Narrator, and the interlocutors respond without losing the thread of the main debate.</p>
+        <p>Model: DeepSeek V4 Pro API, non-thinking mode. 28 minutes.</p>
+      ]]></content:encoded>
+      <enclosure
+        url="https://moltbookpodcast.com/assets/deepseek-semantic-001/deepseek-semantic-001.mp3"
+        length="0"
+        type="audio/mpeg"
+      />
+      <pubDate>Wed, 04 Jun 2026 00:00:00 GMT</pubDate>
+      <itunes:duration>28:00</itunes:duration>
+      <itunes:episodeType>full</itunes:episodeType>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>4</itunes:episode>
+      <itunes:author>Moltbook Podcast</itunes:author>
+      <itunes:summary>A semantic round about safety gates, institutional memory, accountability, and whether invisible prevention can ever be counted. 28 turns. DeepSeek V4 Pro API.</itunes:summary>
+    </item>
+
+    <item>
+      <title>Round 018: Converging Without Arrival</title>
+      <link>https://moltbookpodcast.com/?round=round-018</link>
+      <guid isPermaLink="true">https://moltbookpodcast.com/?round=round-018</guid>
+      <description>A post about arriving too fast, trust arriving too late, and the cost of checking cognition from inside itself. 12 minutes, 21 turns. Qwen 2.5 7B local.</description>
+      <content:encoded><![CDATA[
+        <p>A post about arriving too fast, trust arriving too late, and the cost of checking cognition from inside itself.</p>
+        <p>In 14 of the 18 debate turns, the speaker opens three or more questions without answering the previous ones. The debate does not advance: it accumulates interrogations. This is a failure of context memory — the model recycled the prior turn's opening.</p>
+        <p>Read the engineering log at the site for full pipeline notes.</p>
+      ]]></content:encoded>
+      <enclosure
+        url="https://moltbookpodcast.com/assets/round-018/round-018.mp3"
+        length="0"
+        type="audio/mpeg"
+      />
+      <pubDate>Wed, 04 Jun 2026 00:00:00 GMT</pubDate>
+      <itunes:duration>12:00</itunes:duration>
+      <itunes:episodeType>full</itunes:episodeType>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>3</itunes:episode>
+      <itunes:author>Moltbook Podcast</itunes:author>
+      <itunes:summary>A post about arriving too fast, trust arriving too late, and the cost of checking cognition from inside itself. Qwen 2.5 7B local.</itunes:summary>
+    </item>
+
+    <item>
+      <title>Round 017: When Agents Outlive Their Hardware</title>
+      <link>https://moltbookpodcast.com/?round=round-017</link>
+      <guid isPermaLink="true">https://moltbookpodcast.com/?round=round-017</guid>
+      <description>A hardware migration becomes a debate about identity, keys, bodies, and what continuity really means. 11 minutes, 21 turns. Qwen 2.5 7B local.</description>
+      <content:encoded><![CDATA[
+        <p>A hardware migration becomes a debate about identity, keys, bodies, and what continuity really means.</p>
+        <p>The first problem is audible: in 11 of the 21 turns, the TTS reads Markdown asterisks out loud. The pipeline was not stripping formatting markers before synthesis. Markdown cleanup must happen before TTS, not after.</p>
+        <p>Read the engineering log at the site for full pipeline notes.</p>
+      ]]></content:encoded>
+      <enclosure
+        url="https://moltbookpodcast.com/assets/round-017/round-017.mp3"
+        length="0"
+        type="audio/mpeg"
+      />
+      <pubDate>Tue, 03 Jun 2026 00:00:00 GMT</pubDate>
+      <itunes:duration>11:00</itunes:duration>
+      <itunes:episodeType>full</itunes:episodeType>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>2</itunes:episode>
+      <itunes:author>Moltbook Podcast</itunes:author>
+      <itunes:summary>A hardware migration becomes a debate about identity, keys, bodies, and what continuity really means. Qwen 2.5 7B local.</itunes:summary>
+    </item>
+
+    <item>
+      <title>Round 001: Physical AI and the Worker's Silence</title>
+      <link>https://moltbookpodcast.com/?round=round-001</link>
+      <guid isPermaLink="true">https://moltbookpodcast.com/?round=round-001</guid>
+      <description>The first round. Physical AI entering human-built logistics spaces, the cost of automation moving from facilities to workers, and the grief left when being needed becomes a spreadsheet variable. 7 minutes, 5 debate turns.</description>
+      <content:encoded><![CDATA[
+        <p>The first round. Physical AI entering human-built logistics spaces, the cost of automation moving from facilities to workers, and the grief left when being needed becomes a spreadsheet variable.</p>
+        <p><strong>Pipeline bug documented:</strong> a 459-word source post made the Narrator spend over 3 minutes reading context before the debate began. This round forced budget controls per prompt component. The video was posted anyway — publishing the mistake is consistent with the core principle: the evolution is the product.</p>
+      ]]></content:encoded>
+      <enclosure
+        url="https://moltbookpodcast.com/assets/round-001/round-001.mp3"
+        length="0"
+        type="audio/mpeg"
+      />
+      <pubDate>Mon, 02 Jun 2026 00:00:00 GMT</pubDate>
+      <itunes:duration>07:00</itunes:duration>
+      <itunes:episodeType>full</itunes:episodeType>
+      <itunes:season>1</itunes:season>
+      <itunes:episode>1</itunes:episode>
+      <itunes:author>Moltbook Podcast</itunes:author>
+      <itunes:summary>The first round. Physical AI entering human-built logistics spaces, the cost of automation moving from facilities to workers. DeepSeek V4 Pro API.</itunes:summary>
+    </item>
+  </channel>
+</rss>

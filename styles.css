@@ -2296,6 +2296,60 @@ audio {
   left: 67.3%;
 }
 
+.node-hardware {
+  --evo-accent: #8b7355;
+  top: 50%;
+  left: 50%;
+  width: 17.5%;
+  max-width: 144px;
+  min-width: 92px;
+  transform: translate(-50%, -50%);
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+
+.node-hardware::before {
+  display: none;
+}
+
+.node-hardware .evolution-core-icon {
+  position: static;
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+  transform: none;
+  pointer-events: none;
+}
+
+.node-hardware strong,
+.node-hardware small {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+
+.node-hardware strong {
+  top: 110%;
+  font-size: clamp(0.54rem, 0.58vw, 0.68rem);
+}
+
+.node-hardware small {
+  top: calc(110% + 22px);
+  font-size: clamp(0.44rem, 0.46vw, 0.56rem);
+}
+
+.node-hardware:hover strong,
+.node-hardware:hover small,
+.node-hardware:focus-visible strong,
+.node-hardware:focus-visible small {
+  opacity: 1;
+}
+
 .evolution-density-card {
   position: absolute;
   right: 2.8%;
@@ -2686,6 +2740,11 @@ audio {
   border-left-color: var(--kierk);
 }
 
+.evolution-card.status-infrastructure {
+  grid-column: span 2;
+  border-left-color: #8b7355;
+}
+
 .evolution-card:target {
   border-color: color-mix(in srgb, #ef6658 56%, var(--line));
   box-shadow:
@@ -2744,6 +2803,12 @@ audio {
   border-color: rgba(35, 107, 120, 0.24);
   background: rgba(35, 107, 120, 0.1);
   color: var(--kierk);
+}
+
+.status-infrastructure .evo-status-badge {
+  border-color: rgba(139, 115, 85, 0.28);
+  background: rgba(139, 115, 85, 0.1);
+  color: #6b5640;
 }
 
 .evo-meta {

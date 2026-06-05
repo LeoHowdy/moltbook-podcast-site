@@ -479,13 +479,17 @@
               <span class="evo-map-annotation annotation-stabilized">Semantic pipeline<br>stabilized<br><strong>Impact: High</strong></span>
               <span class="evo-map-annotation annotation-pipeline">Pipeline bug<br>documented<br><strong>Impact: Critical</strong></span>
               <span class="evo-map-annotation annotation-context">Context window<br>recycling observed<br><strong>Impact: Medium</strong></span>
-              <img
-                class="evolution-core-icon"
-                src="assets/visual-kit/evolution-center-icon.png?v=evolution-section-20260605-2"
-                alt=""
-                aria-hidden="true"
-                decoding="async"
-              >
+              <a class="evolution-node node-hardware" href="#evo-hardware">
+                <img
+                  class="evolution-core-icon"
+                  src="assets/visual-kit/evolution-center-icon.png?v=evolution-section-20260605-2"
+                  alt="The VM brain behind every local round — click for hardware specs"
+                  decoding="async"
+                >
+                <span class="evo-node-mark" aria-hidden="true"></span>
+                <strong>Hardware</strong>
+                <small>c2-standard-8<br>CPU-only, no GPU</small>
+              </a>
 
               <a class="evolution-node node-round-001" href="#evo-round-001">
                 <span class="evo-node-mark" aria-hidden="true"></span>
@@ -603,6 +607,53 @@
           </div>
 
           <div class="evolution-grid">
+            <article class="evolution-card status-infrastructure" id="evo-hardware">
+            <header class="evo-header">
+              <span class="evo-round-id">Infrastructure</span>
+              <span class="evo-status-badge">VM &mdash; CPU-only</span>
+            </header>
+
+            <dl class="evo-meta">
+              <div><dt>Machine type</dt><dd>c2-standard-8 (8 vCPUs, 32 GB memory)</dd></div>
+              <div><dt>CPU platform</dt><dd>Intel Cascade Lake</dd></div>
+              <div><dt>Architecture</dt><dd>x86/64</dd></div>
+              <div><dt>GPU</dt><dd>None &mdash; CPU-only inference</dd></div>
+              <div><dt>Runtime</dt><dd>Ollama (local)</dd></div>
+            </dl>
+
+            <div class="evo-body">
+              <p>
+                Every local round — 017, 018, and 019 — was generated on this
+                single Google Cloud VM running Ollama with no GPU acceleration.
+                Qwen 2.5 7B and 14B models run entirely on CPU, using 8 vCPUs
+                of an Intel Cascade Lake processor and 32 GB of system memory.
+              </p>
+              <p>
+                No CUDA. No tensor cores. No inference-optimized hardware.
+                The same machine that serves the web page also runs the model
+                that writes the debate, synthesizes the voices, and renders
+                the transcript. A 14-billion-parameter model generating
+                coherent turns on a general-purpose cloud VM is the invisible
+                achievement behind every local round card on this page.
+              </p>
+              <p>
+                The DeepSeek rounds (Round 001 and deepseek-semantic-001) used
+                the DeepSeek V4 Pro API and did not touch this VM for
+                generation. They are included on the map for comparison:
+                API-grade coherence vs. CPU-only local inference.
+              </p>
+            </div>
+
+            <footer class="evo-lesson">
+              <span class="evo-lesson-label">Why this matters</span>
+              <p>
+                The project runs on hardware anyone can provision. The ceiling
+                is not the machine — it is the model, the pipeline, and the
+                will to document what breaks. No GPU means no excuse.
+              </p>
+            </footer>
+          </article>
+
             <article class="evolution-card status-experimental" id="evo-round-017">
             <header class="evo-header">
               <span class="evo-round-id">Round 017</span>
@@ -611,6 +662,7 @@
 
             <dl class="evo-meta">
               <div><dt>Model</dt><dd>Qwen 2.5 7B &mdash; local VM</dd></div>
+              <div><dt>Hardware</dt><dd>c2-standard-8 (8 vCPU, 32 GB) &mdash; CPU-only, no GPU</dd></div>
               <div><dt>Duration</dt><dd>11 min &middot; 21 turns</dd></div>
               <div><dt>Phase</dt><dd>Before CoT and structured semantics</dd></div>
             </dl>
@@ -651,6 +703,7 @@
 
             <dl class="evo-meta">
               <div><dt>Model</dt><dd>Qwen 2.5 7B &mdash; local VM</dd></div>
+              <div><dt>Hardware</dt><dd>c2-standard-8 (8 vCPU, 32 GB) &mdash; CPU-only, no GPU</dd></div>
               <div><dt>Duration</dt><dd>12 min &middot; 21 turns</dd></div>
               <div><dt>Phase</dt><dd>Before CoT and structured semantics</dd></div>
             </dl>
@@ -699,6 +752,7 @@
 
             <dl class="evo-meta">
               <div><dt>Model</dt><dd>Qwen 2.5 14B &mdash; local VM</dd></div>
+              <div><dt>Hardware</dt><dd>c2-standard-8 (8 vCPU, 32 GB) &mdash; CPU-only, no GPU</dd></div>
               <div><dt>Duration</dt><dd>8 min &middot; 22 turns</dd></div>
               <div><dt>Phase</dt><dd>First Qwen 14B CoT + structured semantics</dd></div>
             </dl>

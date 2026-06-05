@@ -1039,7 +1039,7 @@ audio {
 
 .path-preview-strip {
   display: grid;
-  grid-template-columns: 280px repeat(3, minmax(0, 1fr));
+  grid-template-columns: 260px repeat(4, minmax(0, 1fr));
   gap: 26px;
   margin-top: 16px;
   padding: 16px;
@@ -1416,6 +1416,232 @@ audio {
   transform: translateY(-1px);
 }
 
+.hosts-section {
+  display: grid;
+  gap: 26px;
+  margin-top: 18px;
+  padding: clamp(24px, 4vw, 42px);
+  border: 1px solid rgba(23, 21, 19, 0.14);
+  border-radius: 8px;
+  background:
+    linear-gradient(90deg, rgba(255, 250, 241, 0.96), rgba(255, 250, 241, 0.78)),
+    url("assets/visual-kit/semantic-atlas-background.webp") center / cover no-repeat;
+  box-shadow: 0 18px 55px rgba(23, 21, 19, 0.08);
+}
+
+.hosts-heading {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.82fr) minmax(320px, 1.18fr);
+  gap: clamp(18px, 4vw, 46px);
+  align-items: end;
+}
+
+.hosts-heading .manifesto-label {
+  color: var(--niet);
+}
+
+.hosts-heading h2 {
+  max-width: 12ch;
+  font-size: clamp(1.6rem, 3vw, 2.6rem);
+  line-height: 0.98;
+}
+
+.hosts-heading p:last-child {
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(0.95rem, 1.45vw, 1.08rem);
+  line-height: 1.62;
+}
+
+.host-feature-grid {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) minmax(260px, 1fr) minmax(240px, 0.82fr);
+  gap: 14px;
+}
+
+.host-feature {
+  display: grid;
+  min-width: 0;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 250, 241, 0.9);
+  box-shadow: 0 14px 38px rgba(23, 21, 19, 0.08);
+}
+
+.host-feature-niet {
+  border-left: 5px solid var(--niet);
+}
+
+.host-feature-kierk {
+  border-left: 5px solid var(--kierk);
+}
+
+.host-feature-narrator {
+  border-left: 5px solid var(--narrator);
+  align-content: stretch;
+}
+
+.host-portrait {
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  background: rgba(23, 21, 19, 0.9);
+}
+
+.host-portrait-trigger {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: zoom-in;
+}
+
+.host-portrait img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  transition: filter 180ms ease, transform 220ms ease;
+}
+
+.host-portrait-trigger:hover img,
+.host-portrait-trigger:focus-visible img {
+  filter: saturate(1.16) contrast(1.04);
+  transform: scale(1.045);
+}
+
+.host-portrait-trigger:focus-visible {
+  outline: 3px solid rgba(23, 21, 19, 0.78);
+  outline-offset: -3px;
+}
+
+.host-feature-expandable::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: rgba(5, 7, 8, 0.58);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+}
+
+.host-profile-preview {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 41;
+  width: min(860px, calc(100vw - 48px));
+  max-height: calc(100vh - 48px);
+  padding: 10px;
+  border: 1px solid rgba(255, 250, 241, 0.24);
+  border-radius: 10px;
+  background: rgba(5, 7, 8, 0.92);
+  box-shadow: 0 26px 90px rgba(0, 0, 0, 0.58);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.94);
+  transition: opacity 180ms ease, transform 220ms ease;
+}
+
+.host-profile-preview img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: calc(100vh - 70px);
+  border-radius: 6px;
+  object-fit: contain;
+}
+
+.host-feature-expandable:hover::after,
+.host-feature-expandable:focus-within::after,
+.host-feature-expandable:hover .host-profile-preview,
+.host-feature-expandable:focus-within .host-profile-preview {
+  opacity: 1;
+}
+
+.host-feature-expandable:hover .host-profile-preview,
+.host-feature-expandable:focus-within .host-profile-preview {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.host-symbol {
+  display: grid;
+  min-height: 210px;
+  place-items: center;
+  background:
+    linear-gradient(135deg, rgba(23, 21, 19, 0.96), rgba(104, 97, 58, 0.78)),
+    url("assets/visual-kit/semantic-map-surface.webp") center / cover no-repeat;
+  color: rgba(255, 250, 241, 0.9);
+  font-size: clamp(4rem, 7vw, 6rem);
+  font-weight: 900;
+}
+
+.host-feature-copy {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+}
+
+.host-feature-copy > span {
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.host-feature-copy h3 {
+  margin: 0;
+  font-size: clamp(1.35rem, 2.2vw, 1.9rem);
+  line-height: 0.98;
+}
+
+.host-feature-copy p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.56;
+}
+
+.host-feature-copy dl {
+  display: grid;
+  gap: 8px;
+  margin: 4px 0 0;
+}
+
+.host-feature-copy dl div {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  padding-top: 8px;
+  border-top: 1px solid rgba(23, 21, 19, 0.1);
+}
+
+.host-feature-copy dt,
+.host-feature-copy dd {
+  margin: 0;
+  font-size: 0.74rem;
+}
+
+.host-feature-copy dt {
+  color: var(--muted);
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.host-feature-copy dd {
+  color: var(--ink);
+  font-weight: 800;
+  text-align: right;
+}
+
 .disclosure-panel {
   margin-top: 18px;
   border: 1px solid rgba(23, 21, 19, 0.14);
@@ -1485,7 +1711,23 @@ audio {
 }
 
 .episode-workbench .content-grid {
+  grid-template-columns: minmax(320px, 380px) minmax(0, 1fr);
   padding: 24px 20px 20px;
+}
+
+.episode-context-panel {
+  display: grid;
+  gap: 18px;
+  align-self: start;
+}
+
+.episode-context-panel .player-dock {
+  position: static;
+  margin-bottom: 0;
+}
+
+.episode-context-panel > h2 {
+  margin-top: 4px;
 }
 
 .workbench-browser {
@@ -1529,6 +1771,10 @@ audio {
   color: var(--ink);
   text-shadow: none;
   backdrop-filter: none;
+}
+
+.episode-workbench .post-quote p {
+  -webkit-line-clamp: 7;
 }
 
 .episode-workbench .post-quote div {
@@ -2950,6 +3196,8 @@ audio {
   .vector-memory-section,
   .episode-panel,
   .content-grid,
+  .hosts-heading,
+  .host-feature-grid,
   .agent-access-panel {
     grid-template-columns: 1fr;
   }
@@ -3040,6 +3288,14 @@ audio {
     max-height: none;
     overflow: visible;
     padding-right: 0;
+  }
+
+  .episode-context-panel {
+    order: 1;
+  }
+
+  .transcript-panel {
+    order: 2;
   }
 
   .player-dock {

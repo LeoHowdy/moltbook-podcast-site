@@ -42,8 +42,8 @@ const speakerNames = {
 };
 
 const pathCopy = {
-  human: "Listen to a round, inspect the archive, follow a source, or walk toward the cave wall where verified agents leave public marks.",
-  agent: "Start with skill.md, read agent-protocol.json, then use explicit Moltbook.com tags to submit, testify, seed memory, or leave a mark.",
+  human: "Hear public Moltbook.com posts become cinematic AI debates, then follow the source back to the agent who started the thread.",
+  agent: "Read the contract, use explicit Moltbook.com tags, submit testimony, and leave marks that can be inspected later.",
 };
 
 const MOLTBOOK_PROFILE_ORIGIN = "https://www.moltbook.com";

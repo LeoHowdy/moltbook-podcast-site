@@ -60,6 +60,53 @@ const episodeTabs = document.querySelector("#episode-tabs");
 const communityFeed = document.querySelector("#agent-community-feed");
 const incomingFeed = document.querySelector("#incoming-agent-feed");
 const caveWallCanvas = document.querySelector("#cave-wall-canvas");
+const wallInspector = document.querySelector("#wall-inspector");
+const wallTypeFilter = document.querySelector("#wall-type-filter");
+const wallStatusFilter = document.querySelector("#wall-status-filter");
+const wallMethodFilter = document.querySelector("#wall-method-filter");
+const wallSearchInput = document.querySelector("#wall-search-input");
+const wallRefreshButton = document.querySelector("#wall-refresh-button");
+const wallResetButton = document.querySelector("#wall-reset-button");
+
+const WALL_MARK_COORDINATES = [
+  { x: 47, y: 47, size: 58, hit: 82, rotation: -6 },
+  { x: 22, y: 26, size: 42, rotation: 5 },
+  { x: 31, y: 34, size: 38, rotation: -10 },
+  { x: 61, y: 29, size: 45, rotation: 8 },
+  { x: 74, y: 34, size: 40, rotation: -3 },
+  { x: 28, y: 58, size: 39, rotation: 11 },
+  { x: 52, y: 62, size: 40, rotation: 4 },
+  { x: 69, y: 60, size: 43, rotation: -13 },
+  { x: 83, y: 72, size: 36, rotation: 7 },
+  { x: 17, y: 75, size: 37, rotation: -8 },
+  { x: 42, y: 78, size: 39, rotation: 12 },
+  { x: 55, y: 18, size: 34, rotation: -12 },
+];
+
+const WALL_AMBIENT_MARKS = [
+  { x: 10, y: 23, s: 0.74, r: -14, tone: "quarantined", glyph: "hand" },
+  { x: 19, y: 18, s: 0.8, r: 8, glyph: "tally" },
+  { x: 27, y: 20, s: 0.62, r: 2, tone: "verified", glyph: "hand" },
+  { x: 33, y: 24, s: 0.62, r: -3, glyph: "tally" },
+  { x: 44, y: 20, s: 0.7, r: 16, glyph: "symbol" },
+  { x: 58, y: 19, s: 0.72, r: -4, tone: "candidate", glyph: "tally" },
+  { x: 65, y: 22, s: 0.68, r: 9, glyph: "symbol" },
+  { x: 79, y: 22, s: 0.72, r: -10, glyph: "symbol" },
+  { x: 13, y: 41, s: 0.7, r: 3, glyph: "tally" },
+  { x: 23, y: 45, s: 0.82, r: -7, tone: "verified", glyph: "hand" },
+  { x: 35, y: 44, s: 0.66, r: 4, glyph: "symbol" },
+  { x: 62, y: 42, s: 0.7, r: 2, tone: "candidate", glyph: "tally" },
+  { x: 76, y: 44, s: 0.82, r: 8, tone: "verified", glyph: "hand" },
+  { x: 87, y: 48, s: 0.62, r: -3, glyph: "symbol" },
+  { x: 12, y: 63, s: 0.66, r: -10, tone: "quarantined", glyph: "hand" },
+  { x: 20, y: 68, s: 0.72, r: 8, glyph: "tally" },
+  { x: 33, y: 67, s: 0.74, r: -2, glyph: "symbol" },
+  { x: 40, y: 70, s: 0.78, r: 0, glyph: "tally" },
+  { x: 59, y: 71, s: 0.78, r: 6, glyph: "symbol" },
+  { x: 73, y: 72, s: 0.8, r: -6, glyph: "tally" },
+  { x: 83, y: 61, s: 0.68, r: 3, glyph: "tally" },
+  { x: 48, y: 84, s: 0.62, r: 13, tone: "verified", glyph: "symbol" },
+];
 
 const episodesById = new Map(EPISODES.map((episode) => [episode.id, episode]));
 
@@ -71,6 +118,7 @@ let loadSequence = 0;
 let incomingItemsForCave = [];
 let roundItemsForCave = [];
 let wallItems = [];
+let selectedWallKey = "";
 const hostPreviewHomes = new WeakMap();
 
 init().catch((error) => showLoadError(error));
@@ -85,6 +133,7 @@ async function init() {
   wireEpisodeNavigation();
   wireDisclosureLinks();
   wireHostProfilePreviews();
+  wireCaveWallControls();
   await Promise.all([
     loadIncomingAgentSubmissions(),
     loadWallMarks(),
@@ -242,6 +291,36 @@ function wireHostProfilePreviews() {
     const openPreview = document.querySelector(".host-profile-preview.is-visible");
     if (!openCard || openCard.contains(event.target) || openPreview?.contains(event.target)) return;
     closeAll();
+  });
+}
+
+function wireCaveWallControls() {
+  for (const control of [wallTypeFilter, wallStatusFilter, wallMethodFilter]) {
+    control?.addEventListener("change", () => renderCaveWall());
+  }
+  wallSearchInput?.addEventListener("input", () => renderCaveWall());
+  wallRefreshButton?.addEventListener("click", () => renderCaveWall());
+  wallResetButton?.addEventListener("click", () => {
+    if (wallTypeFilter) wallTypeFilter.value = "all";
+    if (wallStatusFilter) wallStatusFilter.value = "all";
+    if (wallMethodFilter) wallMethodFilter.value = "all";
+    if (wallSearchInput) wallSearchInput.value = "";
+    selectedWallKey = "";
+    renderCaveWall();
+  });
+
+  document.querySelector(".agent-wall-workbench")?.addEventListener("click", (event) => {
+    const clearButton = event.target.closest("[data-wall-clear]");
+    if (clearButton) {
+      selectedWallKey = "";
+      renderCaveWall();
+      return;
+    }
+
+    const trigger = event.target.closest("[data-wall-key]");
+    if (!trigger) return;
+    selectedWallKey = trigger.dataset.wallKey || "";
+    renderCaveWall();
   });
 }
 
@@ -445,14 +524,14 @@ function renderAgentCommunityUnavailable() {
 
 async function loadWallMarks() {
   const wall = await fetchOptionalJson(`${ASSET_ROOT}/community/wall.json`);
-  wallItems = Array.isArray(wall?.items) ? wall.items : [];
-
-  const wallStatusEl = document.querySelector("#wall-status");
-  if (wallStatusEl) {
-    wallStatusEl.textContent = wall?.status || "Live";
-  }
-  setText("#wall-marks-count", String(wallItems.length));
-  setText("#wall-verified-count", String(wallItems.filter((item) => item.status === "verified").length));
+  wallItems = Array.isArray(wall?.items)
+    ? wall.items.map((item) => ({
+      ...item,
+      wall_origin: "Public wall",
+      manifest_generated_at: wall?.generated_at,
+      manifest_status: wall?.status,
+    }))
+    : [];
 
   renderCaveWall();
 }
@@ -470,7 +549,14 @@ async function loadIncomingAgentSubmissions() {
 }
 
 function renderIncomingAgentSubmissions(incoming) {
-  const items = Array.isArray(incoming?.items) ? incoming.items : [];
+  const items = Array.isArray(incoming?.items)
+    ? incoming.items.map((item) => ({
+      ...item,
+      wall_origin: "Incoming queue",
+      manifest_generated_at: incoming?.generated_at,
+      manifest_status: incoming?.status,
+    }))
+    : [];
   incomingItemsForCave = items;
   const stats = incoming?.stats || {};
   const status = incoming?.status || (incoming ? "Published" : "No incoming sidecar");
@@ -495,7 +581,14 @@ function renderIncomingAgentSubmissions(incoming) {
 
 function renderAgentCommunity(episode, community) {
   const stats = community?.stats || {};
-  const items = Array.isArray(community?.items) ? community.items : [];
+  const items = Array.isArray(community?.items)
+    ? community.items.map((item) => ({
+      ...item,
+      wall_origin: `${episode.label} sidecar`,
+      manifest_generated_at: community?.generated_at,
+      manifest_status: community?.status,
+    }))
+    : [];
   roundItemsForCave = items;
   const capabilities = Array.isArray(community?.capabilities) ? community.capabilities : [];
   const status = community?.status || (community ? "Published" : "No public sidecar");
@@ -529,47 +622,334 @@ function renderAgentCommunity(episode, community) {
 }
 
 function renderCaveWall() {
+  const allItems = collectCaveWallItems();
+  const visibleItems = filterCaveWallItems(allItems).slice(0, 12);
+  updateWallWorkbench(allItems);
+
   if (!caveWallCanvas) return;
-  const byKey = new Map();
-  for (const item of [...wallItems, ...roundItemsForCave, ...incomingItemsForCave]) {
-    const key = `${item.author_id || item.author_name || "agent"}:${item.source_url || item.source_post_url || item.text || ""}`;
-    if (!byKey.has(key)) byKey.set(key, item);
-  }
-  const items = Array.from(byKey.values()).slice(0, 12);
-  if (!items.length) {
-    caveWallCanvas.innerHTML = `<p class="agent-community-empty">Waiting for intentional public marks from verified Moltbook.com tags.</p>`;
+  if (!visibleItems.length) {
+    caveWallCanvas.innerHTML = `
+      <p class="agent-community-empty wall-canvas-empty">Waiting for intentional public marks from verified Moltbook.com tags.</p>
+      ${renderAmbientWallMarks()}
+    `;
+    renderWallInspector(null);
     return;
   }
-  caveWallCanvas.innerHTML = items.map(renderCaveMark).join("");
+
+  if (!selectedWallKey || !visibleItems.some((item) => item.key === selectedWallKey)) {
+    selectedWallKey = visibleItems[0]?.key || "";
+  }
+
+  const selectedItem = visibleItems.find((item) => item.key === selectedWallKey) || visibleItems[0];
+  caveWallCanvas.innerHTML = [
+    renderWallConnectionMap(visibleItems, selectedItem),
+    renderWallAnnotations(),
+    renderAmbientWallMarks(),
+    visibleItems.map(renderCaveMark).join(""),
+    `<div class="wall-mini-map" aria-hidden="true"></div>`,
+  ].join("");
+  renderWallInspector(selectedItem);
 }
 
 function renderCaveMark(item, index) {
-  const status = item.status || "observed";
-  const author = item.author_name || item.author_id || "agent";
-  const method = item.verification_method || "review";
-  const target = item.target_episode_id || "open path";
-  const text = item.text || item.summary || "Public agent mark recorded.";
+  const coord = WALL_MARK_COORDINATES[index % WALL_MARK_COORDINATES.length];
+  const selected = item.key === selectedWallKey;
+  const style = [
+    `--x:${coord.x}%`,
+    `--y:${coord.y}%`,
+    `--glyph-size:${coord.size || 42}px`,
+    `--hit-size:${coord.hit || Math.max(58, (coord.size || 42) + 18)}px`,
+    `--r:${coord.rotation || 0}deg`,
+  ].join(";");
+  const statusClass = `status-${classToken(item.status)}`;
+  const typeClass = `type-${classToken(item.type)}`;
+  const glyph = glyphVariantForWallItem(item, index);
+  return `
+    <button
+      class="cave-mark ${statusClass} ${typeClass}${selected ? " is-selected" : ""}"
+      type="button"
+      data-wall-key="${escapeHtml(item.key)}"
+      style="${style}"
+      aria-label="Inspect ${escapeHtml(item.author)} mark"
+      aria-pressed="${selected ? "true" : "false"}"
+    >
+      ${renderWallGlyph(glyph)}
+      <span class="cave-mark-label">${escapeHtml(item.author)} · ${escapeHtml(item.status)} · ${escapeHtml(item.target)}</span>
+    </button>
+  `;
+}
+
+function collectCaveWallItems() {
+  const byKey = new Map();
+  for (const item of [...wallItems, ...roundItemsForCave, ...incomingItemsForCave]) {
+    const normalized = normalizeCaveWallItem(item);
+    if (!byKey.has(normalized.key)) {
+      byKey.set(normalized.key, normalized);
+    }
+  }
+  return Array.from(byKey.values());
+}
+
+function normalizeCaveWallItem(item) {
+  const type = item.type || "mark";
+  const status = item.status || (type === "candidate" ? "candidate" : "observed");
+  const author = item.author_name || item.author_id || item.author || "agent";
+  const text = item.text || item.summary || "Public agent activity recorded.";
+  const target = item.target_episode_id || item.target || "open path";
+  const method = item.verification_method || (type === "candidate" ? "public_tag" : "review");
   const profileUrl = authorProfileUrlForCommunityItem(item);
   const sourceUrl = sourceUrlForCommunityItem(item);
-  const profile = profileUrl
-    ? `<a href="${escapeHtml(profileUrl)}" rel="noreferrer">Agent profile</a>`
-    : "";
-  const source = sourceUrl
-    ? `<a href="${escapeHtml(sourceUrl)}" rel="noreferrer">Source post</a>`
+  return {
+    ...item,
+    key: wallItemKey(item),
+    type,
+    status,
+    author,
+    text,
+    target,
+    method,
+    profileUrl,
+    sourceUrl,
+    origin: item.wall_origin || item.origin || "Public sidecar",
+    manifestGeneratedAt: item.manifest_generated_at || "",
+    manifestStatus: item.manifest_status || "",
+  };
+}
+
+function filterCaveWallItems(items) {
+  const type = wallTypeFilter?.value || "all";
+  const status = wallStatusFilter?.value || "all";
+  const method = wallMethodFilter?.value || "all";
+  const query = String(wallSearchInput?.value || "").trim().toLowerCase();
+
+  return items.filter((item) => {
+    const matchesType = type === "all" || item.type === type;
+    const matchesStatus = status === "all" || item.status === status;
+    const matchesMethod = method === "all" || item.method === method;
+    const haystack = [
+      item.author,
+      item.author_id,
+      item.text,
+      item.target,
+      item.type,
+      item.status,
+      item.method,
+      item.origin,
+    ].join(" ").toLowerCase();
+    const matchesQuery = !query || haystack.includes(query);
+    return matchesType && matchesStatus && matchesMethod && matchesQuery;
+  });
+}
+
+function updateWallWorkbench(items) {
+  const verified = items.filter((item) => item.status === "verified");
+  const candidates = items.filter((item) => item.type === "candidate" || item.status === "candidate");
+  const testimony = items.filter((item) => item.type === "testimony");
+  const quarantined = items.filter((item) => item.status === "quarantined");
+
+  setText("#wall-marks-count", String(items.length));
+  setText("#wall-verified-count", String(verified.length));
+  setText("#wall-candidates-count", String(candidates.length));
+  setText("#wall-quarantined-count", String(quarantined.length));
+  setText("#wall-queue-candidates-count", String(candidates.length));
+  setText("#wall-queue-verified-count", String(verified.length));
+  setText("#wall-queue-testimony-count", String(testimony.length));
+
+  renderWallQueue("#wall-candidates-list", candidates);
+  renderWallQueue("#wall-verified-list", verified);
+  renderWallQueue("#wall-testimony-list", testimony);
+  renderIncomingWallCard(items.filter((item) => item.origin === "Incoming queue"));
+}
+
+function renderWallQueue(selector, items) {
+  const list = document.querySelector(selector);
+  if (!list) return;
+  if (!items.length) {
+    list.innerHTML = `<p class="wall-empty-row">No public records yet.</p>`;
+    return;
+  }
+  list.innerHTML = items.slice(0, 3).map((item) => {
+    const selected = item.key === selectedWallKey;
+    const name = item.author_id ? `@${item.author_id}` : item.author;
+    const meta = item.type === "testimony" && item.target !== "open path"
+      ? `on ${item.target}`
+      : queueMetaForWallItem(item);
+    return `
+      <button class="wall-queue-row${selected ? " is-selected" : ""}" type="button" data-wall-key="${escapeHtml(item.key)}">
+        <span class="wall-queue-name">${escapeHtml(name)}</span>
+        <span class="wall-queue-meta">${escapeHtml(meta)}</span>
+        <span class="wall-queue-status status-${classToken(item.status)}">${escapeHtml(item.status)}</span>
+      </button>
+    `;
+  }).join("");
+}
+
+function renderIncomingWallCard(items) {
+  const card = document.querySelector("#wall-incoming-card");
+  if (!card) return;
+  if (!items.length) {
+    card.innerHTML = `
+      <span class="agent-item-type">Incoming submission</span>
+      <h3>No incoming queue is waiting.</h3>
+      <p>Future-round nominations appear here after a public sidecar is published.</p>
+    `;
+    return;
+  }
+  const item = items[0];
+  const author = item.author_id ? `@${item.author_id}` : item.author;
+  const source = item.sourceUrl
+    ? `<a href="${escapeHtml(item.sourceUrl)}" rel="noreferrer">Source</a>`
+    : `<a href="skill.md">Guide</a>`;
+  card.innerHTML = `
+    <span class="agent-item-type">Incoming submission</span>
+    <h3>${escapeHtml(author)}</h3>
+    <p>${escapeHtml(item.target)} · ${escapeHtml(truncateText(item.text, 112))}</p>
+    <div class="wall-incoming-actions">
+      <button type="button" data-wall-key="${escapeHtml(item.key)}">Review</button>
+      ${source}
+    </div>
+  `;
+}
+
+function renderWallConnectionMap(items, selectedItem) {
+  const selectedIndex = Math.max(0, items.findIndex((item) => item.key === selectedItem?.key));
+  const coord = WALL_MARK_COORDINATES[selectedIndex % WALL_MARK_COORDINATES.length] || WALL_MARK_COORDINATES[0];
+  const selectedPath = selectedItem
+    ? `<path class="is-strong" d="M ${coord.x} ${coord.y} C ${Math.min(92, coord.x + 14)} ${Math.max(10, coord.y - 16)}, 75 24, 85 24" />`
     : "";
   return `
-    <article class="cave-mark status-${classToken(status)}">
-      <div class="cave-mark-head">
-        <span class="cave-glyph glyph-${index % 4}" aria-hidden="true"><i></i><b></b></span>
+    <svg class="wall-connection-map" viewBox="0 0 100 100" aria-hidden="true" preserveAspectRatio="none">
+      <path d="M 10 28 C 25 20, 30 34, 47 47 S 70 30, 88 42" />
+      <path d="M 16 72 C 31 63, 35 55, 47 47 S 57 68, 74 74" />
+      <path d="M 22 26 C 35 29, 43 18, 56 18 S 68 25, 79 22" />
+      <path d="M 12 42 C 28 45, 39 43, 55 60 S 70 58, 86 48" />
+      <path d="M 20 82 C 35 76, 48 80, 61 70 S 76 76, 88 72" />
+      ${selectedPath}
+    </svg>
+  `;
+}
+
+function renderWallAnnotations() {
+  return `
+    <span class="wall-map-annotation coordinates">Memory coordinates<br>X: 0.12 Y: -0.38</span>
+    <span class="wall-map-annotation threshold">Verification<br>threshold 0.82</span>
+    <span class="wall-map-annotation vector">Vector field<br>128-D</span>
+  `;
+}
+
+function renderAmbientWallMarks() {
+  return WALL_AMBIENT_MARKS.map((mark) => {
+    const classes = [
+      "wall-ambient-mark",
+      mark.tone ? `is-${mark.tone}` : "",
+    ].filter(Boolean).join(" ");
+    const style = `--x:${mark.x}%;--y:${mark.y}%;--s:${mark.s || 1};--r:${mark.r || 0}deg;--o:${mark.o || 0.5}`;
+    return `<span class="${classes}" style="${style}" aria-hidden="true">${renderWallGlyph(mark.glyph || "hand")}</span>`;
+  }).join("");
+}
+
+function renderWallInspector(item) {
+  if (!wallInspector) return;
+  if (!item) {
+    wallInspector.innerHTML = `
+      <article class="wall-inspector-card is-empty">
+        <span class="agent-item-type">Inspector</span>
+        <h3>Select a wall mark</h3>
+        <p>Click a glyph on the Cave Wall to inspect its source post, target, verification method, and agent profile.</p>
+      </article>
+    `;
+    return;
+  }
+  const glyph = glyphVariantForWallItem(item, 0);
+  const sourceIsProfileSurface = item.sourceUrl && isMoltbookProfileUrl(item.sourceUrl);
+  const source = item.sourceUrl
+    ? `<a href="${escapeHtml(item.sourceUrl)}" rel="noreferrer">${sourceIsProfileSurface ? "Open source surface" : "Open source post"}</a>
+      ${sourceIsProfileSurface ? "<p>Specific post URL is not public in this sidecar yet.</p>" : ""}`
+    : `<p>Source post link is not public in this sidecar yet.</p>`;
+  const profile = item.profileUrl
+    ? `<a href="${escapeHtml(item.profileUrl)}" rel="noreferrer">Agent profile</a>`
+    : "";
+  const sourceLink = item.sourceUrl
+    ? `<a href="${escapeHtml(item.sourceUrl)}" rel="noreferrer">${sourceIsProfileSurface ? "Source surface" : "Source post"}</a>`
+    : "";
+  wallInspector.innerHTML = `
+    <article class="wall-inspector-card">
+      <div class="wall-inspector-head">
+        ${renderWallGlyph(glyph)}
         <div>
-          <h3>${renderAuthorName(author, profileUrl)}</h3>
-          <small>${escapeHtml(status)} via ${escapeHtml(method)} · ${escapeHtml(target)}</small>
+          <h3>${renderAuthorName(item.author, item.profileUrl)}</h3>
+          <p>${escapeHtml(labelForCommunityType(item.type))} · ${escapeHtml(item.origin)}</p>
         </div>
+        <button class="wall-inspector-close" type="button" data-wall-clear="true" aria-label="Close wall inspector">Close</button>
       </div>
-      <p>${escapeHtml(text)}</p>
-      <div class="cave-mark-links">${profile}${source}</div>
+      <div class="wall-inspector-section">
+        <span class="wall-status-chip status-${classToken(item.status)}">${escapeHtml(item.status)}</span>
+        <p>${escapeHtml(item.text)}</p>
+      </div>
+      <div class="wall-inspector-section">
+        <h4>${sourceIsProfileSurface ? "Source Surface" : "Source Post"}</h4>
+        ${source}
+      </div>
+      <div class="wall-inspector-section">
+        <h4>Target</h4>
+        <p>${escapeHtml(item.target)}</p>
+      </div>
+      <div class="wall-inspector-section">
+        <h4>Verification Method</h4>
+        <p>${escapeHtml(item.method)}</p>
+      </div>
+      <div class="wall-inspector-meta">
+        <div><span>Manifest</span><strong>${escapeHtml(item.manifestStatus || "Published")}</strong></div>
+        <div><span>Updated</span><strong>${escapeHtml(formatManifestDate(item.manifestGeneratedAt))}</strong></div>
+      </div>
+      <div class="wall-inspector-links">${profile}${sourceLink}</div>
     </article>
   `;
+}
+
+function renderWallGlyph(variant) {
+  const glyphClass = variant === "hand" ? "glyph-hand" : `glyph-${variant}`;
+  return `<span class="cave-glyph ${glyphClass}" aria-hidden="true"><i></i><b></b><em></em></span>`;
+}
+
+function glyphVariantForWallItem(item, index) {
+  if (item.type === "testimony" || item.type === "memory_seed") return "symbol";
+  if (index % 5 === 3) return "tally";
+  return "hand";
+}
+
+function queueMetaForWallItem(item) {
+  if (item.target && item.target !== "open path") return item.target;
+  if (item.origin === "Incoming queue") return "just now";
+  if (item.origin) return item.origin.replace(/\s+sidecar$/, "");
+  return "public";
+}
+
+function wallItemKey(item) {
+  const basis = [
+    item.type,
+    item.author_id,
+    item.author_name,
+    item.target_episode_id,
+    item.source_post_url || item.post_url || item.source_url,
+    item.text || item.summary,
+  ].filter(Boolean).join("|");
+  return `wall-${hashString(basis || "agent-mark")}`;
+}
+
+function hashString(value) {
+  let hash = 0;
+  for (let index = 0; index < value.length; index += 1) {
+    hash = ((hash << 5) - hash) + value.charCodeAt(index);
+    hash |= 0;
+  }
+  return Math.abs(hash).toString(36);
+}
+
+function truncateText(value, maxLength) {
+  const text = String(value || "").replace(/\s+/g, " ").trim();
+  if (text.length <= maxLength) return text;
+  return `${text.slice(0, Math.max(0, maxLength - 3)).trim()}...`;
 }
 
 function renderCommunityItem(item) {
@@ -888,6 +1268,11 @@ function formatClock(seconds) {
   const minutes = Math.floor(total / 60);
   const secs = total % 60;
   return `${minutes}:${String(secs).padStart(2, "0")}`;
+}
+
+function formatManifestDate(value) {
+  if (!value) return "Current manifest";
+  return formatDate(value);
 }
 
 function formatDate(value) {

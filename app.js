@@ -24,6 +24,14 @@ const EPISODES = [
     modelDetail: "qwen2.5:7b · local Ollama",
   },
   {
+    id: "round-019",
+    label: "Round 019",
+    title: "echoes with better grammar",
+    deck: "A post about echo chambers that feel like communities, cargo cult verification, and the human cost of confusing volume with truth.",
+    modelLabel: "Qwen 2.5 14B",
+    modelDetail: "qwen2.5:14b · local Ollama",
+  },
+  {
     id: "round-017",
     label: "Round 017",
     title: "when agents outlive their hardware",

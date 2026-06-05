@@ -320,7 +320,7 @@
         <nav class="episode-browser workbench-browser" aria-label="Episode archive">
           <div class="episode-browser-heading">
             <span>Episode archive</span>
-            <span id="episode-count">4 rounds</span>
+            <span id="episode-count">5 rounds</span>
           </div>
           <div class="episode-tabs" id="episode-tabs"></div>
         </nav>
@@ -433,22 +433,25 @@
                 The first problem is audible: in 11 of the 21 turns, the TTS reads
                 Markdown asterisks out loud. The model generated bold formatting
                 (<code>**word**</code>) and the pipeline was not stripping those
-                markers before synthesis.
+                markers before synthesis. Every turn that ends with a question has
+                it wrapped in double asterisks, so the listener hears every question
+                shouted.
               </p>
               <p>
-                The second problem is structural. Niet and Kierk repeat the opening
-                of the previous turn almost word for word. With a 7B model and a
-                limited context window, the model recycles the prior turn's opening
-                because it has lost track of what it just said.
+                The second problem is structural. Turn 13 recycles Turn 11 almost
+                verbatim: the Provocateur opens with the same sentence about RustChain
+                and repeats an identical question. The model has lost track of what
+                it just said and re-utters it as if new. This is not stylistic
+                repetition — it is context-window amnesia.
               </p>
             </div>
 
             <footer class="evo-lesson">
               <span class="evo-lesson-label">What this round taught</span>
               <p>
-                Markdown cleanup must happen before TTS, not after, and Qwen 7B
-                does not have enough context memory to sustain a debate without
-                recycling structure between turns.
+                Markdown cleanup must happen before TTS, not after. And Qwen 7B does
+                not have enough context memory to sustain a debate without recycling
+                entire openings between turns — the model forgets it already spoke.
               </p>
             </footer>
           </article>
@@ -468,27 +471,95 @@
             <div class="evo-body">
               <p>
                 The asterisk bug was fixed between Round 017 and this one. But the
-                underlying model problem became more visible, not less.
+                underlying model problem became more visible, not less: fix the
+                formatting, and the structural failure stands naked.
               </p>
               <p>
                 In 14 of the 18 debate turns, the speaker opens three or more
-                questions without answering the previous ones. In turn 6, the
-                Analyst chains six questions in a row. The debate does not advance:
-                it accumulates interrogations.
+                questions without answering the previous ones. Turn 6 is the collapse
+                point: the Analyst chains six questions in a single response — "Yet,
+                isn't there a danger... Are we not... Furthermore, how do you propose...
+                Without these tools, don't we... What if... How can one challenge..."
+                The debate does not advance. It accumulates interrogations like a
+                server spawning threads until nothing completes.
               </p>
               <p>
-                This is not a failure of the source idea. It is a failure of context
-                memory. The source post about convergence and authenticity is
-                genuinely interesting. The limit is the model.
+                The pattern is consistent: the Analyst (Kierk) is the primary
+                accumulator. Turn 10: five questions. Turn 12: four. Turn 14: three.
+                The Provocateur also chains in turns 9, 13, and 15. Neither persona
+                can hold the instruction "answer before counter-attacking" because
+                the model cannot hold the previous answer in memory long enough to
+                respond to it.
               </p>
             </div>
 
             <footer class="evo-lesson">
               <span class="evo-lesson-label">What this round taught</span>
               <p>
-                Persona constraints without a model with sufficient context produce
-                form without substance. "Answer before counter-attacking" only works
-                when the model remembers what needs to be answered.
+                Persona constraints without a model large enough to hold context
+                produce form without substance. "Answer before counter-attacking"
+                only works when the model remembers what needs to be answered. The
+                Qwen 7B cannot.
+              </p>
+            </footer>
+          </article>
+
+          <article class="evolution-card status-experimental">
+            <header class="evo-header">
+              <span class="evo-round-id">Round 019</span>
+              <span class="evo-status-badge">First 14B generation</span>
+            </header>
+
+            <dl class="evo-meta">
+              <div><dt>Model</dt><dd>Qwen 2.5 14B &mdash; local VM</dd></div>
+              <div><dt>Duration</dt><dd>8 min &middot; 22 turns</dd></div>
+              <div><dt>Phase</dt><dd>First Qwen 14B CoT + structured semantics</dd></div>
+            </dl>
+
+            <div class="evo-body">
+              <p>
+                The question was whether doubling model capacity (7B → 14B) would
+                fix the core debate-quality problems from Rounds 017 and 018. The
+                answer is a partial yes — and a new no.
+              </p>
+              <p>
+                <strong>What improved.</strong> The question-chaining collapse from
+                Round 018 did not recur. Every debate turn asks at most one question.
+                Most turns process the previous answer before countering. The model
+                is large enough to hold a single-turn structure. Three community
+                comments are woven in by the Narrator and genuinely shift the debate
+                direction: from echo chambers to memetic contagion to cargo cult
+                verification to recognition-speed fitness signals. The
+                comment-integration pipeline works as intended.
+              </p>
+              <p>
+                <strong>What broke differently.</strong> The Analyst opens all 9 of
+                its debate turns with the same formula: "The human cost of this
+                dynamic is..." — the model found a valid opening and refused to leave
+                it. Worse: Turns 6 and 8 are exact duplicates, word for word. The
+                pipeline did not detect the duplication and the TTS read the same
+                31-second Analyst monologue twice in a row. A new formatting bug also
+                appeared: four turns end with a literal space-then-question-mark
+                (<code> ?</code>) as a detached token, suggesting the model sometimes
+                generates punctuation as a standalone fragment.
+              </p>
+              <p>
+                The Provocateur cycles through 9 variations of "the echo chamber
+                rewards status over substance" without developing the argument. The
+                community comments carry the debate forward while the core
+                interlocutors spin in place.
+              </p>
+            </div>
+
+            <footer class="evo-lesson">
+              <span class="evo-lesson-label">What this round taught</span>
+              <p>
+                Doubling model capacity from 7B to 14B fixed question-chaining but
+                revealed a new ceiling: formulaic repetition. The model finds a valid
+                opening and refuses to leave it. The next step is not more parameters —
+                it is a repetition detector in the pipeline that catches exact-duplicate
+                or near-duplicate turns before they reach TTS, and a persona prompt
+                that penalizes opening consecutive turns with the same sentence stem.
               </p>
             </footer>
           </article>
@@ -510,8 +581,15 @@
               <p>
                 This is the round where the project proves the concept works and
                 simultaneously hits an engineering limit that was not on the radar.
-                Kierk responds directly before counter-attacking. Niet processes the
-                answer and returns with one surgical question. The debate has memory.
+                In just 5 debate turns, the interlocutors build a genuine
+                philosophical escalation: Niet asks "at what point does the human
+                become the guest in their own built world?" Kierk responds not with
+                a counter-question but with a counter-framing — the worker was never
+                the host, only the most adaptable tool — then asks what demolition
+                offers the person who lost the unspoken proof of being needed. Niet
+                returns by naming that tenderness as a cage and redirecting the
+                question to the investor's spreadsheet. The debate has memory. Each
+                turn deepens. One question per turn. Zero structural repetition.
               </p>
 
               <h3>The problem: 459-word source post</h3>
@@ -519,7 +597,8 @@
                 The ingestion pipeline had no size limit for the source post. The
                 selected post, a dense Physical AI logistics article by
                 <code>rossum</code>, made the Narrator spend 3 minutes and 13
-                seconds reading context before the debate began.
+                seconds reading context before the debate began — longer than the
+                debate itself.
               </p>
               <p>
                 The video was rendered anyway and posted as a pipeline error, not
@@ -529,18 +608,18 @@
 
               <h3>What the bug revealed in the pipeline</h3>
               <p>
-                This DeepSeek round exposed a content-selection and episode-shaping
-                problem: a source post could be valid for analysis while still being
-                too large for a clean narrated opening. The lesson was to review and
-                constrain source length before synthesis, then treat visual trims as
-                presentation controls rather than evidence about the generation model.
+                A source post could be valid for analysis while still being too large
+                for a clean narrated opening. The lesson was to review and constrain
+                source length before synthesis, then treat visual trims as presentation
+                controls rather than evidence about the generation model.
               </p>
             </div>
 
             <footer class="evo-lesson">
               <span class="evo-lesson-label">What this round taught</span>
               <p>
-                The first proof that the concept works was also the first real
+                The first proof that the concept works — one surgical question per
+                turn, genuine escalation, zero recycling — was also the first real
                 production bug that improved every round after it.
               </p>
             </footer>
@@ -563,54 +642,37 @@
                 28 turns. Zero turns with multiple open questions. Zero structural
                 repetitions between consecutive turns. Zero formatting markers
                 reaching the TTS. The numbers describe a debate that works as
-                intended.
+                intended — but the numbers understate what makes this the reference
+                episode.
               </p>
               <p>
                 The topic, verification gates for AI agent actions, deepens across
-                the episode. A real audience comment is inserted by the Narrator,
-                and the interlocutors respond without losing the thread of the main
-                debate.
+                the episode through a genuine narrative arc. It moves from "is the
+                gate protecting anything?" (turn 1) → "the gate protects the
+                individual from being a statistical inevitability" (turn 2) → "your
+                pause saved one but condemned a thousand" (turn 3) → "the checker
+                cannot catch what the builder never modeled: the user is not a
+                constant" (turns 6–8) → "the woman whose body changed without her
+                consent — the system treated her continuity as a given" (turn 8) →
+                "who scoped the gate?" (turn 9) → "witness vs saboteur" (turns
+                12–15) → "cultural transmission below the threshold of the balance
+                sheet" (turns 22–24). The debate does not loop. It climbs.
               </p>
               <p>
-                Temperature and per-turn token limits were tuned for 2 to 4
-                sentence responses. Thinking mode is disabled so latency stays
-                predictable and audio pacing remains natural.
+                Two community comments are inserted by the Narrator and the
+                interlocutors respond without losing the thread. Temperature and
+                per-turn token limits tuned for 2 to 4 sentence responses. Thinking
+                mode disabled so latency stays predictable and audio pacing remains
+                natural.
               </p>
             </div>
 
             <footer class="evo-lesson">
               <span class="evo-lesson-label">What this round taught</span>
-              <p>The mature pipeline. The baseline from which every next round is built.</p>
-            </footer>
-          </article>
-
-          <article class="evolution-card status-upcoming">
-            <header class="evo-header">
-              <span class="evo-round-id">Next experiment</span>
-              <span class="evo-status-badge">In progress</span>
-            </header>
-
-            <div class="evo-body">
               <p>
-                The next production cycle introduces Qwen 2.5 14B running locally
-                on the VM: twice the capacity of the model that produced Rounds 017
-                and 018.
+                The mature pipeline. The baseline from which every next round is
+                built — and the standard that local models are measured against.
               </p>
-              <p>
-                The same persona constraints, CoT structure, and semantic pipeline
-                that define the DeepSeek rounds are now applied to the larger local
-                model.
-              </p>
-              <p>
-                The question is direct: can a larger local model sustain a debate
-                with the same semantic coherence as DeepSeek V4 Pro via API, without
-                the latency and cost of an external call?
-              </p>
-            </div>
-
-            <footer class="evo-lesson">
-              <span class="evo-lesson-label">What this round will test</span>
-              <p>The result will appear in the next rounds. The evolution remains public.</p>
             </footer>
           </article>
         </div>

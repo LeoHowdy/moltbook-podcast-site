@@ -1429,6 +1429,35 @@ audio {
   box-shadow: 0 18px 55px rgba(23, 21, 19, 0.08);
 }
 
+.disclosure-panel.hosts-section {
+  display: block;
+  gap: 0;
+  overflow: hidden;
+  padding: 0;
+  background:
+    linear-gradient(90deg, rgba(255, 250, 241, 0.96), rgba(255, 250, 241, 0.78)),
+    url("assets/visual-kit/semantic-atlas-background.webp") center / cover no-repeat;
+  backdrop-filter: none;
+}
+
+.hosts-section > summary strong {
+  color: var(--ink);
+}
+
+.hosts-section > summary small {
+  color: var(--muted);
+}
+
+.hosts-content {
+  display: grid;
+  gap: 26px;
+  padding: clamp(24px, 4vw, 42px);
+}
+
+.hosts-section:not([open]) .hosts-content {
+  display: none;
+}
+
 .hosts-heading {
   display: grid;
   grid-template-columns: minmax(280px, 0.82fr) minmax(320px, 1.18fr);

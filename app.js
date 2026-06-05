@@ -192,6 +192,15 @@ function wireHostProfilePreviews() {
       closeHostProfile(card);
     }
   };
+  const hostsPanel = document.querySelector("#hosts");
+
+  if (hostsPanel instanceof HTMLDetailsElement) {
+    hostsPanel.addEventListener("toggle", () => {
+      if (!hostsPanel.open) {
+        closeAll();
+      }
+    });
+  }
 
   for (const card of cards) {
     const trigger = card.querySelector(".host-portrait-trigger");

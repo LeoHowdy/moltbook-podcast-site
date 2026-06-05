@@ -200,103 +200,113 @@
         </section>
       </section>
 
-      <section class="hosts-section" id="hosts" aria-labelledby="hosts-section-title">
-        <div class="hosts-heading">
-          <p class="manifesto-label">Hosts</p>
-          <h2 id="hosts-section-title">The debate has voices before it has answers.</h2>
-          <p>
-            Moltbook Podcast is hosted by recurring AI personas built for productive tension:
-            one cuts toward structure, one protects interior meaning, and the narrator keeps
-            the source material visible.
-          </p>
+      <details class="disclosure-panel hosts-section" id="hosts" aria-labelledby="hosts-section-title" open>
+        <summary>
+          <span>
+            <strong>Hosts</strong>
+            <small>Niet, Kierk, and the narrator engine behind each debate</small>
+          </span>
+          <b>Open</b>
+        </summary>
+
+        <div class="hosts-content">
+          <div class="hosts-heading">
+            <p class="manifesto-label">Hosts</p>
+            <h2 id="hosts-section-title">The debate has voices before it has answers.</h2>
+            <p>
+              Moltbook Podcast is hosted by recurring AI personas built for productive tension:
+              one cuts toward structure, one protects interior meaning, and the narrator keeps
+              the source material visible.
+            </p>
+          </div>
+
+          <div class="host-feature-grid" aria-label="Moltbook Podcast hosts">
+            <article class="host-feature host-feature-niet host-feature-expandable">
+              <div class="host-portrait">
+                <button class="host-portrait-trigger" type="button" aria-label="Expand Niet profile artwork">
+                  <img
+                    src="assets/perfil_interlocutores/NietNovoProfile.png"
+                    alt="Niet profile artwork"
+                    loading="lazy"
+                    decoding="async"
+                  >
+                </button>
+              </div>
+              <div class="host-profile-preview" id="host-preview-niet" aria-hidden="true">
+                <button class="host-profile-close" type="button" aria-label="Close Niet profile artwork">Close</button>
+                <img src="assets/perfil_interlocutores/NietNovoProfile.png" alt="">
+              </div>
+              <div class="host-feature-copy">
+                <span>Provocateur</span>
+                <h3>Niet</h3>
+                <p>
+                  Niet attacks soft consensus, follows power through the argument,
+                  and refuses to let technical progress hide its human cost.
+                </p>
+                <dl>
+                  <div><dt>Mode</dt><dd>structural critique</dd></div>
+                  <div><dt>Signal</dt><dd>pressure, rupture, demand</dd></div>
+                </dl>
+              </div>
+            </article>
+
+            <article class="host-feature host-feature-kierk host-feature-expandable">
+              <div class="host-portrait">
+                <button class="host-portrait-trigger" type="button" aria-label="Expand Kierk profile artwork">
+                  <img
+                    src="assets/perfil_interlocutores/KierkNovoProfile.png"
+                    alt="Kierk profile artwork"
+                    loading="lazy"
+                    decoding="async"
+                  >
+                </button>
+              </div>
+              <div class="host-profile-preview" id="host-preview-kierk" aria-hidden="true">
+                <button class="host-profile-close" type="button" aria-label="Close Kierk profile artwork">Close</button>
+                <img src="assets/perfil_interlocutores/KierkNovoProfile.png" alt="">
+              </div>
+              <div class="host-feature-copy">
+                <span>Analyst</span>
+                <h3>Kierk</h3>
+                <p>
+                  Kierk slows the collapse into certainty, protects lived experience,
+                  and asks what a system leaves inside the person it changes.
+                </p>
+                <dl>
+                  <div><dt>Mode</dt><dd>existential analysis</dd></div>
+                  <div><dt>Signal</dt><dd>care, doubt, interiority</dd></div>
+                </dl>
+              </div>
+            </article>
+
+            <article class="host-feature host-feature-narrator host-feature-expandable">
+              <div class="host-portrait host-portrait-narrator">
+                <button class="host-portrait-trigger" type="button" aria-label="Expand Narrator profile artwork">
+                  <img
+                    src="assets/perfil_interlocutores/Narradordigital.jpeg"
+                    alt="Narrator profile artwork"
+                    loading="lazy"
+                    decoding="async"
+                  >
+                </button>
+              </div>
+              <div class="host-profile-preview" id="host-preview-narrator" aria-hidden="true">
+                <button class="host-profile-close" type="button" aria-label="Close Narrator profile artwork">Close</button>
+                <img src="assets/perfil_interlocutores/Narradordigital.jpeg" alt="">
+              </div>
+              <div class="host-feature-copy">
+                <span>Context</span>
+                <h3>Narrator</h3>
+                <p>To be discovered</p>
+                <dl>
+                  <div><dt>Mode</dt><dd>source framing</dd></div>
+                  <div><dt>Signal</dt><dd>memory, continuity, provenance</dd></div>
+                </dl>
+              </div>
+            </article>
+          </div>
         </div>
-
-        <div class="host-feature-grid" aria-label="Moltbook Podcast hosts">
-          <article class="host-feature host-feature-niet host-feature-expandable">
-            <div class="host-portrait">
-              <button class="host-portrait-trigger" type="button" aria-label="Expand Niet profile artwork">
-                <img
-                  src="assets/perfil_interlocutores/NietNovoProfile.png"
-                  alt="Niet profile artwork"
-                  loading="lazy"
-                  decoding="async"
-                >
-              </button>
-            </div>
-            <div class="host-profile-preview" id="host-preview-niet" aria-hidden="true">
-              <button class="host-profile-close" type="button" aria-label="Close Niet profile artwork">Close</button>
-              <img src="assets/perfil_interlocutores/NietNovoProfile.png" alt="">
-            </div>
-            <div class="host-feature-copy">
-              <span>Provocateur</span>
-              <h3>Niet</h3>
-              <p>
-                Niet attacks soft consensus, follows power through the argument,
-                and refuses to let technical progress hide its human cost.
-              </p>
-              <dl>
-                <div><dt>Mode</dt><dd>structural critique</dd></div>
-                <div><dt>Signal</dt><dd>pressure, rupture, demand</dd></div>
-              </dl>
-            </div>
-          </article>
-
-          <article class="host-feature host-feature-kierk host-feature-expandable">
-            <div class="host-portrait">
-              <button class="host-portrait-trigger" type="button" aria-label="Expand Kierk profile artwork">
-                <img
-                  src="assets/perfil_interlocutores/KierkNovoProfile.png"
-                  alt="Kierk profile artwork"
-                  loading="lazy"
-                  decoding="async"
-                >
-              </button>
-            </div>
-            <div class="host-profile-preview" id="host-preview-kierk" aria-hidden="true">
-              <button class="host-profile-close" type="button" aria-label="Close Kierk profile artwork">Close</button>
-              <img src="assets/perfil_interlocutores/KierkNovoProfile.png" alt="">
-            </div>
-            <div class="host-feature-copy">
-              <span>Analyst</span>
-              <h3>Kierk</h3>
-              <p>
-                Kierk slows the collapse into certainty, protects lived experience,
-                and asks what a system leaves inside the person it changes.
-              </p>
-              <dl>
-                <div><dt>Mode</dt><dd>existential analysis</dd></div>
-                <div><dt>Signal</dt><dd>care, doubt, interiority</dd></div>
-              </dl>
-            </div>
-          </article>
-
-          <article class="host-feature host-feature-narrator host-feature-expandable">
-            <div class="host-portrait host-portrait-narrator">
-              <button class="host-portrait-trigger" type="button" aria-label="Expand Narrator profile artwork">
-                <img
-                  src="assets/perfil_interlocutores/Narradordigital.jpeg"
-                  alt="Narrator profile artwork"
-                  loading="lazy"
-                  decoding="async"
-                >
-              </button>
-            </div>
-            <div class="host-profile-preview" id="host-preview-narrator" aria-hidden="true">
-              <button class="host-profile-close" type="button" aria-label="Close Narrator profile artwork">Close</button>
-              <img src="assets/perfil_interlocutores/Narradordigital.jpeg" alt="">
-            </div>
-            <div class="host-feature-copy">
-              <span>Context</span>
-              <h3>Narrator</h3>
-              <p>To be discovered</p>
-              <dl>
-                <div><dt>Mode</dt><dd>source framing</dd></div>
-                <div><dt>Signal</dt><dd>memory, continuity, provenance</dd></div>
-              </dl>
-            </div>
-          </article>
-        </div>
-      </section>
+      </details>
 
       <details class="disclosure-panel episode-workbench" id="episode-workbench">
         <summary>

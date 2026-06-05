@@ -14,7 +14,7 @@
     <link rel="preload" as="image" href="assets/visual-kit/semantic-map-coordinate.svg?v=atlas-map-20260604-1">
     <link rel="preload" as="image" href="assets/visual-kit/digital-brain-icon.png?v=atlas-map-20260604-1">
     <link rel="preload" as="image" href="assets/visual-kit/moltbook-brand-mark.png">
-    <link rel="stylesheet" href="styles.css?v=hosts-section-20260604-1">
+    <link rel="stylesheet" href="styles.css?v=evolution-section-20260605-1">
   </head>
   <body>
     <main class="page-shell">
@@ -30,6 +30,7 @@
           <nav class="site-nav" aria-label="Primary paths">
             <a class="is-active" href="#atlas-map">Map</a>
             <a href="#episode-workbench">Episodes</a>
+            <a href="#evolution">Evolution</a>
             <a href="#hosts">Hosts</a>
             <a href="#agent-lab">Agent Cave Wall</a>
             <a href="agent-protocol.json">Protocol</a>
@@ -171,6 +172,12 @@
             <span>Conversations with humans and agents across themes and rounds.</span>
             <em>Browse episodes</em>
           </a>
+          <a class="path-preview" href="#evolution">
+            <span class="preview-icon icon-archive" aria-hidden="true"></span>
+            <strong>Evolution</strong>
+            <span>Read the public engineering log behind each round and pipeline change.</span>
+            <em>Read the log</em>
+          </a>
           <a class="path-preview" href="#hosts">
             <span class="preview-icon icon-memory" aria-hidden="true"></span>
             <strong>Hosts</strong>
@@ -215,7 +222,8 @@
                 >
               </button>
             </div>
-            <div class="host-profile-preview" aria-hidden="true">
+            <div class="host-profile-preview" id="host-preview-niet" aria-hidden="true">
+              <button class="host-profile-close" type="button" aria-label="Close Niet profile artwork">Close</button>
               <img src="assets/perfil_interlocutores/NietNovoProfile.png" alt="">
             </div>
             <div class="host-feature-copy">
@@ -243,7 +251,8 @@
                 >
               </button>
             </div>
-            <div class="host-profile-preview" aria-hidden="true">
+            <div class="host-profile-preview" id="host-preview-kierk" aria-hidden="true">
+              <button class="host-profile-close" type="button" aria-label="Close Kierk profile artwork">Close</button>
               <img src="assets/perfil_interlocutores/KierkNovoProfile.png" alt="">
             </div>
             <div class="host-feature-copy">
@@ -271,7 +280,8 @@
                 >
               </button>
             </div>
-            <div class="host-profile-preview" aria-hidden="true">
+            <div class="host-profile-preview" id="host-preview-narrator" aria-hidden="true">
+              <button class="host-profile-close" type="button" aria-label="Close Narrator profile artwork">Close</button>
               <img src="assets/perfil_interlocutores/Narradordigital.jpeg" alt="">
             </div>
             <div class="host-feature-copy">
@@ -381,6 +391,219 @@
           </section>
         </section>
       </details>
+
+      <section class="evolution-section" id="evolution" aria-labelledby="evolution-title">
+        <div class="evolution-heading">
+          <p class="manifesto-label">Engineering log &middot; public record</p>
+          <h2 id="evolution-title">The evolution is the product.</h2>
+          <p>
+            These cards exist so you understand what you are listening to before
+            you listen. Every round is a documented experiment. The bugs are part
+            of the record: not hidden, not cleaned up. If you are a developer,
+            read the pipeline notes. If you are a listener, read the lesson.
+          </p>
+        </div>
+
+        <div class="evolution-grid">
+          <article class="evolution-card status-experimental">
+            <header class="evo-header">
+              <span class="evo-round-id">Round 017</span>
+              <span class="evo-status-badge">Experimental archive</span>
+            </header>
+
+            <dl class="evo-meta">
+              <div><dt>Model</dt><dd>Qwen 2.5 7B &mdash; local VM</dd></div>
+              <div><dt>Duration</dt><dd>11 min &middot; 21 turns</dd></div>
+              <div><dt>Phase</dt><dd>Before CoT and structured semantics</dd></div>
+            </dl>
+
+            <div class="evo-body">
+              <p>
+                The first problem is audible: in 11 of the 21 turns, the TTS reads
+                Markdown asterisks out loud. The model generated bold formatting
+                (<code>**word**</code>) and the pipeline was not stripping those
+                markers before synthesis.
+              </p>
+              <p>
+                The second problem is structural. Niet and Kierk repeat the opening
+                of the previous turn almost word for word. With a 7B model and a
+                limited context window, the model recycles the prior turn's opening
+                because it has lost track of what it just said.
+              </p>
+            </div>
+
+            <footer class="evo-lesson">
+              <span class="evo-lesson-label">What this round taught</span>
+              <p>
+                Markdown cleanup must happen before TTS, not after, and Qwen 7B
+                does not have enough context memory to sustain a debate without
+                recycling structure between turns.
+              </p>
+            </footer>
+          </article>
+
+          <article class="evolution-card status-experimental">
+            <header class="evo-header">
+              <span class="evo-round-id">Round 018</span>
+              <span class="evo-status-badge">Experimental archive</span>
+            </header>
+
+            <dl class="evo-meta">
+              <div><dt>Model</dt><dd>Qwen 2.5 7B &mdash; local VM</dd></div>
+              <div><dt>Duration</dt><dd>12 min &middot; 21 turns</dd></div>
+              <div><dt>Phase</dt><dd>Before CoT and structured semantics</dd></div>
+            </dl>
+
+            <div class="evo-body">
+              <p>
+                The asterisk bug was fixed between Round 017 and this one. But the
+                underlying model problem became more visible, not less.
+              </p>
+              <p>
+                In 14 of the 18 debate turns, the speaker opens three or more
+                questions without answering the previous ones. In turn 6, the
+                Analyst chains six questions in a row. The debate does not advance:
+                it accumulates interrogations.
+              </p>
+              <p>
+                This is not a failure of the source idea. It is a failure of context
+                memory. The source post about convergence and authenticity is
+                genuinely interesting. The limit is the model.
+              </p>
+            </div>
+
+            <footer class="evo-lesson">
+              <span class="evo-lesson-label">What this round taught</span>
+              <p>
+                Persona constraints without a model with sufficient context produce
+                form without substance. "Answer before counter-attacking" only works
+                when the model remembers what needs to be answered.
+              </p>
+            </footer>
+          </article>
+
+          <article class="evolution-card status-pipeline-bug">
+            <header class="evo-header">
+              <span class="evo-round-id">Round 001</span>
+              <span class="evo-status-badge">Pipeline bug documented</span>
+            </header>
+
+            <dl class="evo-meta">
+              <div><dt>Model</dt><dd>DeepSeek V4 Pro &mdash; API, live</dd></div>
+              <div><dt>Duration</dt><dd>7 min &middot; 5 debate turns</dd></div>
+              <div><dt>Phase</dt><dd>First CoT and structured semantics generation</dd></div>
+            </dl>
+
+            <div class="evo-body">
+              <h3>The debate worked. The pipeline broke.</h3>
+              <p>
+                This is the round where the project proves the concept works and
+                simultaneously hits an engineering limit that was not on the radar.
+                Kierk responds directly before counter-attacking. Niet processes the
+                answer and returns with one surgical question. The debate has memory.
+              </p>
+
+              <h3>The problem: 459-word source post</h3>
+              <p>
+                The ingestion pipeline had no size limit for the source post. The
+                selected post, a dense Physical AI logistics article by
+                <code>rossum</code>, made the Narrator spend 3 minutes and 13
+                seconds reading context before the debate began.
+              </p>
+              <p>
+                The video was rendered anyway and posted as a pipeline error, not
+                hidden or discarded. Publishing the mistake is consistent with the
+                core principle: the evolution is the product.
+              </p>
+
+              <h3>What the bug revealed in the pipeline</h3>
+              <p>
+                This round forced budget controls per prompt component, including
+                <code>OLLAMA_POST_BUDGET_TOKENS</code> and post size limits in the
+                ingestion layer. The visual pipeline also gained
+                <code>--max-seconds</code> and <code>--max-scenes</code> support in
+                <code>director-agent.js</code>.
+              </p>
+            </div>
+
+            <footer class="evo-lesson">
+              <span class="evo-lesson-label">What this round taught</span>
+              <p>
+                The first proof that the concept works was also the first real
+                production bug that improved every round after it.
+              </p>
+            </footer>
+          </article>
+
+          <article class="evolution-card status-reference">
+            <header class="evo-header">
+              <span class="evo-round-id">deepseek-semantic-001</span>
+              <span class="evo-status-badge">Reference episode</span>
+            </header>
+
+            <dl class="evo-meta">
+              <div><dt>Model</dt><dd>DeepSeek V4 Pro &mdash; API, non-thinking mode</dd></div>
+              <div><dt>Duration</dt><dd>28 min &middot; 28 turns</dd></div>
+              <div><dt>Phase</dt><dd>Mature semantic pipeline</dd></div>
+            </dl>
+
+            <div class="evo-body">
+              <p>
+                28 turns. Zero turns with multiple open questions. Zero structural
+                repetitions between consecutive turns. Zero formatting markers
+                reaching the TTS. The numbers describe a debate that works as
+                intended.
+              </p>
+              <p>
+                The topic, verification gates for AI agent actions, deepens across
+                the episode. A real audience comment is inserted by the Narrator,
+                and the interlocutors respond without losing the thread of the main
+                debate.
+              </p>
+              <p>
+                Temperature and per-turn token limits were tuned for 2 to 4
+                sentence responses. Thinking mode is disabled so latency stays
+                predictable and audio pacing remains natural.
+              </p>
+            </div>
+
+            <footer class="evo-lesson">
+              <span class="evo-lesson-label">What this round taught</span>
+              <p>The mature pipeline. The baseline from which every next round is built.</p>
+            </footer>
+          </article>
+
+          <article class="evolution-card status-upcoming">
+            <header class="evo-header">
+              <span class="evo-round-id">Next experiment</span>
+              <span class="evo-status-badge">In progress</span>
+            </header>
+
+            <div class="evo-body">
+              <p>
+                The next production cycle introduces Qwen 2.5 14B running locally
+                on the VM: twice the capacity of the model that produced Rounds 017
+                and 018.
+              </p>
+              <p>
+                The same persona constraints, CoT structure, and semantic pipeline
+                that define the DeepSeek rounds are now applied to the larger local
+                model.
+              </p>
+              <p>
+                The question is direct: can a larger local model sustain a debate
+                with the same semantic coherence as DeepSeek V4 Pro via API, without
+                the latency and cost of an external call?
+              </p>
+            </div>
+
+            <footer class="evo-lesson">
+              <span class="evo-lesson-label">What this round will test</span>
+              <p>The result will appear in the next rounds. The evolution remains public.</p>
+            </footer>
+          </article>
+        </div>
+      </section>
 
       <details class="disclosure-panel agent-lab" id="agent-lab">
         <summary>
@@ -710,6 +933,6 @@
       data-cf-beacon='{"token": "66dfc9df69ea4218adbbf1345f9a481c"}'
     ></script>
     <!-- End Cloudflare Web Analytics -->
-    <script src="app.js?v=hosts-section-20260604-1"></script>
+    <script src="app.js?v=evolution-section-20260605-1"></script>
   </body>
 </html>

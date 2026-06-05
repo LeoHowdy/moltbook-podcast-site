@@ -1039,7 +1039,7 @@ audio {
 
 .path-preview-strip {
   display: grid;
-  grid-template-columns: 260px repeat(4, minmax(0, 1fr));
+  grid-template-columns: 260px repeat(5, minmax(0, 1fr));
   gap: 26px;
   margin-top: 16px;
   padding: 16px;
@@ -1484,9 +1484,31 @@ audio {
 }
 
 .host-portrait {
+  position: relative;
   overflow: hidden;
   aspect-ratio: 4 / 3;
   background: rgba(23, 21, 19, 0.9);
+}
+
+.host-portrait::after {
+  content: "Click to expand";
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  z-index: 2;
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+  padding: 0 9px;
+  border: 1px solid rgba(255, 250, 241, 0.34);
+  border-radius: 999px;
+  background: rgba(5, 7, 8, 0.68);
+  color: var(--surface);
+  font-size: 0.64rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  pointer-events: none;
+  text-transform: uppercase;
 }
 
 .host-portrait-trigger {
@@ -1512,7 +1534,7 @@ audio {
 .host-portrait-trigger:hover img,
 .host-portrait-trigger:focus-visible img {
   filter: saturate(1.16) contrast(1.04);
-  transform: scale(1.045);
+  transform: scale(1.025);
 }
 
 .host-portrait-trigger:focus-visible {
@@ -1520,28 +1542,17 @@ audio {
   outline-offset: -3px;
 }
 
-.host-feature-expandable::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 40;
-  background: rgba(5, 7, 8, 0.58);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 180ms ease;
-}
-
 .host-profile-preview {
   position: fixed;
   top: 50%;
   left: 50%;
-  z-index: 41;
+  z-index: 999;
   width: min(860px, calc(100vw - 48px));
   max-height: calc(100vh - 48px);
   padding: 10px;
   border: 1px solid rgba(255, 250, 241, 0.24);
   border-radius: 10px;
-  background: rgba(5, 7, 8, 0.92);
+  background: #050708;
   box-shadow: 0 26px 90px rgba(0, 0, 0, 0.58);
   opacity: 0;
   pointer-events: none;
@@ -1558,16 +1569,56 @@ audio {
   object-fit: contain;
 }
 
-.host-feature-expandable:hover::after,
-.host-feature-expandable:focus-within::after,
-.host-feature-expandable:hover .host-profile-preview,
-.host-feature-expandable:focus-within .host-profile-preview {
-  opacity: 1;
+.host-profile-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 1000;
+  display: inline-flex;
+  min-height: 38px;
+  align-items: center;
+  padding: 0 12px;
+  border: 1px solid rgba(255, 250, 241, 0.34);
+  border-radius: 999px;
+  background: rgba(5, 7, 8, 0.76);
+  color: var(--surface);
+  cursor: pointer;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  opacity: 0;
+  pointer-events: none;
+  text-transform: uppercase;
 }
 
-.host-feature-expandable:hover .host-profile-preview,
-.host-feature-expandable:focus-within .host-profile-preview {
+.host-profile-close:hover,
+.host-profile-close:focus-visible {
+  border-color: var(--surface);
+  background: rgba(5, 7, 8, 0.92);
+  outline: 0;
+}
+
+.host-profile-preview.is-visible {
+  opacity: 1;
+  pointer-events: auto;
   transform: translate(-50%, -50%) scale(1);
+}
+
+.host-profile-preview.is-visible .host-profile-close {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.host-profile-modal-open {
+  overflow: hidden;
+}
+
+.host-profile-modal-open::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 998;
+  background: rgba(5, 7, 8, 0.72);
 }
 
 .host-symbol {
@@ -1779,6 +1830,234 @@ audio {
 
 .episode-workbench .post-quote div {
   color: var(--muted);
+}
+
+.evolution-section {
+  display: grid;
+  gap: 26px;
+  margin-top: 18px;
+  padding: clamp(24px, 4vw, 42px);
+  border: 1px solid rgba(23, 21, 19, 0.14);
+  border-radius: 8px;
+  background:
+    linear-gradient(90deg, rgba(255, 250, 241, 0.94), rgba(255, 250, 241, 0.74)),
+    linear-gradient(90deg, rgba(35, 107, 120, 0.08) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(163, 63, 47, 0.06) 1px, transparent 1px),
+    url("assets/visual-kit/semantic-map-surface.webp") center / cover no-repeat;
+  background-size: auto, 44px 44px, 44px 44px, auto;
+  box-shadow: 0 18px 55px rgba(23, 21, 19, 0.08);
+}
+
+.evolution-heading {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.75fr) minmax(320px, 1.25fr);
+  gap: clamp(18px, 4vw, 46px);
+  align-items: end;
+}
+
+.evolution-heading .manifesto-label {
+  color: var(--kierk);
+}
+
+.evolution-heading h2 {
+  max-width: 11ch;
+  color: var(--ink);
+  font-size: clamp(1.7rem, 3.2vw, 2.8rem);
+  line-height: 0.98;
+}
+
+.evolution-heading p:last-child {
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(0.95rem, 1.45vw, 1.08rem);
+  line-height: 1.68;
+}
+
+.evolution-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+.evolution-card {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  overflow: hidden;
+  flex-direction: column;
+  gap: 16px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-left: 5px solid var(--narrator);
+  border-radius: 8px;
+  background: rgba(255, 250, 241, 0.92);
+  box-shadow: 0 14px 38px rgba(23, 21, 19, 0.08);
+}
+
+.evolution-card.status-experimental {
+  border-left-color: var(--narrator);
+}
+
+.evolution-card.status-pipeline-bug {
+  border-left-color: var(--niet);
+}
+
+.evolution-card.status-reference {
+  border-left-color: var(--accent);
+}
+
+.evolution-card.status-upcoming {
+  border-left-color: var(--kierk);
+}
+
+.evo-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.evo-round-id {
+  overflow-wrap: anywhere;
+  color: var(--ink);
+  font-family: "Courier New", monospace;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.evo-status-badge {
+  display: inline-flex;
+  min-height: 24px;
+  align-items: center;
+  padding: 0 8px;
+  border: 1px solid rgba(23, 21, 19, 0.1);
+  border-radius: 999px;
+  background: rgba(23, 21, 19, 0.05);
+  color: var(--muted);
+  font-family: "Courier New", monospace;
+  font-size: 0.64rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.status-pipeline-bug .evo-status-badge {
+  border-color: rgba(163, 63, 47, 0.24);
+  background: rgba(163, 63, 47, 0.1);
+  color: var(--niet);
+}
+
+.status-reference .evo-status-badge {
+  border-color: rgba(215, 167, 61, 0.28);
+  background: rgba(215, 167, 61, 0.14);
+  color: #8c6719;
+}
+
+.status-upcoming .evo-status-badge {
+  border-color: rgba(35, 107, 120, 0.24);
+  background: rgba(35, 107, 120, 0.1);
+  color: var(--kierk);
+}
+
+.evo-meta {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+
+.evo-meta div {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  gap: 10px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(23, 21, 19, 0.1);
+}
+
+.evo-meta dt,
+.evo-meta dd {
+  margin: 0;
+  font-size: 0.76rem;
+}
+
+.evo-meta dt {
+  color: var(--muted);
+  font-family: "Courier New", monospace;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.evo-meta dd {
+  color: var(--ink);
+  font-weight: 750;
+  line-height: 1.36;
+}
+
+.evo-body {
+  flex: 1;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.62;
+}
+
+.evo-body p {
+  margin: 0 0 12px;
+}
+
+.evo-body p:last-child {
+  margin-bottom: 0;
+}
+
+.evo-body h3 {
+  margin: 16px 0 8px;
+  color: var(--ink);
+  font-family: "Courier New", monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  line-height: 1.22;
+  text-transform: uppercase;
+}
+
+.evo-body h3:first-child {
+  margin-top: 0;
+}
+
+.evo-body code {
+  padding: 1px 5px;
+  border: 1px solid rgba(23, 21, 19, 0.1);
+  border-radius: 4px;
+  background: rgba(23, 21, 19, 0.05);
+  color: var(--ink);
+  font-family: "Courier New", monospace;
+  font-size: 0.86em;
+  font-weight: 800;
+}
+
+.evo-lesson {
+  padding-top: 14px;
+  border-top: 1px solid rgba(23, 21, 19, 0.1);
+}
+
+.evo-lesson-label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--muted);
+  font-family: "Courier New", monospace;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.evo-lesson p {
+  margin: 0;
+  color: var(--ink);
+  font-size: 0.86rem;
+  line-height: 1.55;
 }
 
 .agent-lab {
@@ -3197,6 +3476,7 @@ audio {
   .episode-panel,
   .content-grid,
   .hosts-heading,
+  .evolution-heading,
   .host-feature-grid,
   .agent-access-panel {
     grid-template-columns: 1fr;

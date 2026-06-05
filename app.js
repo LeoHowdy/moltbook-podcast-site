@@ -70,6 +70,7 @@ let currentRound = DEFAULT_ROUND;
 let loadSequence = 0;
 let incomingItemsForCave = [];
 let roundItemsForCave = [];
+const hostPreviewHomes = new WeakMap();
 
 init().catch((error) => showLoadError(error));
 
@@ -82,6 +83,7 @@ async function init() {
   wireSupportActions();
   wireEpisodeNavigation();
   wireDisclosureLinks();
+  wireHostProfilePreviews();
   await Promise.all([
     loadIncomingAgentSubmissions(),
     loadEpisode(resolveRoundFromUrl(), false),
@@ -177,6 +179,93 @@ function wirePathChoices() {
       }
     });
   }
+}
+
+function wireHostProfilePreviews() {
+  const cards = Array.from(document.querySelectorAll(".host-feature-expandable"));
+  if (!cards.length) return;
+
+  const closeAll = () => {
+    for (const card of cards) {
+      closeHostProfile(card);
+    }
+  };
+
+  for (const card of cards) {
+    const trigger = card.querySelector(".host-portrait-trigger");
+    const preview = card.querySelector(".host-profile-preview");
+    const closeButton = card.querySelector(".host-profile-close");
+    if (!trigger || !preview) continue;
+
+    const home = document.createComment(`host-profile-preview:${preview.id || "host"}`);
+    preview.before(home);
+    hostPreviewHomes.set(preview, home);
+
+    if (preview.id) {
+      trigger.setAttribute("aria-controls", preview.id);
+    }
+    trigger.setAttribute("aria-expanded", "false");
+
+    trigger.addEventListener("click", () => {
+      const wasOpen = card.classList.contains("is-expanded");
+      closeAll();
+      if (!wasOpen) {
+        openHostProfile(card);
+      }
+    });
+
+    closeButton?.addEventListener("click", () => {
+      closeHostProfile(card);
+      trigger.focus({ preventScroll: true });
+    });
+  }
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeAll();
+    }
+  });
+
+  document.addEventListener("click", (event) => {
+    const openCard = document.querySelector(".host-feature-expandable.is-expanded");
+    const openPreview = document.querySelector(".host-profile-preview.is-visible");
+    if (!openCard || openCard.contains(event.target) || openPreview?.contains(event.target)) return;
+    closeAll();
+  });
+}
+
+function openHostProfile(card) {
+  const trigger = card.querySelector(".host-portrait-trigger");
+  const preview = hostPreviewForCard(card);
+  if (!trigger || !preview) return;
+
+  card.classList.add("is-expanded");
+  document.body.classList.add("host-profile-modal-open");
+  document.body.append(preview);
+  preview.classList.add("is-visible");
+  preview.setAttribute("aria-hidden", "false");
+  trigger.setAttribute("aria-expanded", "true");
+}
+
+function closeHostProfile(card) {
+  const trigger = card.querySelector(".host-portrait-trigger");
+  const preview = hostPreviewForCard(card);
+
+  card.classList.remove("is-expanded");
+  trigger?.setAttribute("aria-expanded", "false");
+  if (preview) {
+    preview.classList.remove("is-visible");
+    preview.setAttribute("aria-hidden", "true");
+    hostPreviewHomes.get(preview)?.after(preview);
+  }
+  if (!document.querySelector(".host-feature-expandable.is-expanded")) {
+    document.body.classList.remove("host-profile-modal-open");
+  }
+}
+
+function hostPreviewForCard(card) {
+  const controlId = card.querySelector(".host-portrait-trigger")?.getAttribute("aria-controls");
+  return controlId ? document.getElementById(controlId) : card.querySelector(".host-profile-preview");
 }
 
 function openDisclosureFromHash() {

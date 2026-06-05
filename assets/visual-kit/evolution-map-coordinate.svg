@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 620" role="img" aria-label="Moltbook semantic evolution coordinate map">
+  <defs>
+    <pattern id="evoGrid" width="52" height="52" patternUnits="userSpaceOnUse">
+      <path d="M52 0H0V52" fill="none" stroke="#2d2a25" stroke-opacity=".025" stroke-width="1"/>
+    </pattern>
+    <radialGradient id="evoPaperGlow" cx="50%" cy="48%" r="78%">
+      <stop offset="0" stop-color="#fffaf1" stop-opacity=".98"/>
+      <stop offset=".62" stop-color="#f8f1e6" stop-opacity=".88"/>
+      <stop offset="1" stop-color="#efe5d6" stop-opacity=".62"/>
+    </radialGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#171513" flood-opacity=".08"/>
+    </filter>
+    <style>
+      .orbit { fill: none; stroke: #756e66; stroke-width: 1; stroke-dasharray: 2 9; stroke-linecap: round; stroke-opacity: .22; }
+      .field { fill: none; stroke: #756e66; stroke-width: 1; stroke-dasharray: 8 12; stroke-linecap: round; stroke-opacity: .28; }
+      .route-teal { fill: none; stroke: #218f8c; stroke-width: 3.1; stroke-linecap: round; stroke-opacity: .78; }
+      .route-gold { fill: none; stroke: #d7a73d; stroke-width: 3; stroke-linecap: round; stroke-opacity: .84; }
+      .route-red { fill: none; stroke: #ef6658; stroke-width: 2.8; stroke-linecap: round; stroke-opacity: .76; }
+      .route-gray { fill: none; stroke: #6c6a64; stroke-width: 2.4; stroke-linecap: round; stroke-opacity: .44; }
+      .node-ring { fill: rgba(255,250,241,.34); stroke-width: 2; filter: url(#softShadow); }
+      .node-ring-outer { fill: none; stroke-width: 1.1; stroke-dasharray: 2 8; }
+      .teal { stroke: #218f8c; }
+      .gold { stroke: #d7a73d; }
+      .red { stroke: #ef6658; }
+      .green { stroke: #3a7d5c; }
+      .gray { stroke: #777069; }
+      .dot { fill: #fffaf1; stroke-width: 2.2; }
+      .micro { fill: #7f766d; opacity: .34; }
+      .micro-teal { fill: #218f8c; opacity: .72; }
+      .micro-gold { fill: #d7a73d; opacity: .76; }
+      .micro-red { fill: #ef6658; opacity: .68; }
+      .micro-green { fill: #3a7d5c; opacity: .68; }
+    </style>
+  </defs>
+
+  <rect width="1040" height="620" fill="#f6efe3"/>
+  <rect width="1040" height="620" fill="url(#evoPaperGlow)"/>
+  <rect width="1040" height="620" fill="url(#evoGrid)"/>
+
+  <g id="density-field">
+    <ellipse class="orbit" cx="520" cy="310" rx="156" ry="156"/>
+    <ellipse class="orbit" cx="520" cy="310" rx="188" ry="188"/>
+    <ellipse class="orbit" cx="520" cy="310" rx="224" ry="224"/>
+    <ellipse class="orbit" cx="520" cy="310" rx="286" ry="262"/>
+    <ellipse class="orbit" cx="520" cy="310" rx="378" ry="304"/>
+    <ellipse class="orbit" cx="520" cy="310" rx="470" ry="352"/>
+    <path class="field" d="M46 252C166 132 298 112 472 94C594 82 684 118 786 188C884 254 952 264 998 238"/>
+    <path class="field" d="M76 452C238 502 342 492 520 310C660 166 800 158 980 300"/>
+    <path class="field" d="M76 202C226 254 368 300 520 310C684 320 820 350 968 420"/>
+    <path class="field" d="M104 540C278 574 416 536 520 492C638 442 780 438 964 510"/>
+  </g>
+
+  <g id="routes">
+    <path class="route-teal" d="M520 310C520 246 520 184 520 112"/>
+    <path class="route-teal" d="M520 310C566 280 642 266 770 280"/>
+    <path class="route-gold" d="M520 310C466 248 408 226 314 224"/>
+    <path class="route-gold" d="M314 224C282 274 260 326 250 398"/>
+    <path class="route-gold" d="M250 398C322 418 424 452 520 492"/>
+    <path class="route-gray" d="M520 310C612 340 658 388 700 438"/>
+    <path class="route-red" d="M770 280C848 254 918 246 998 202"/>
+  </g>
+
+  <g id="target-circles">
+    <g id="target-round-001" data-node="round-001">
+      <circle class="node-ring teal" cx="520" cy="112" r="78"/>
+      <circle class="node-ring-outer teal" cx="520" cy="112" r="92" opacity=".52"/>
+      <circle class="node-ring-outer teal" cx="520" cy="112" r="108" opacity=".28"/>
+    </g>
+    <g id="target-round-018" data-node="round-018">
+      <circle class="node-ring gold" cx="314" cy="224" r="76"/>
+      <circle class="node-ring-outer gold" cx="314" cy="224" r="90" opacity=".5"/>
+      <circle class="node-ring-outer gold" cx="314" cy="224" r="106" opacity=".25"/>
+    </g>
+    <g id="target-round-017" data-node="round-017">
+      <circle class="node-ring gold" cx="250" cy="398" r="76"/>
+      <circle class="node-ring-outer gold" cx="250" cy="398" r="90" opacity=".48"/>
+      <circle class="node-ring-outer gold" cx="250" cy="398" r="106" opacity=".24"/>
+    </g>
+    <g id="target-round-019" data-node="round-019">
+      <circle class="node-ring green" cx="520" cy="492" r="76"/>
+      <circle class="node-ring-outer green" cx="520" cy="492" r="90" opacity=".48"/>
+      <circle class="node-ring-outer green" cx="520" cy="492" r="106" opacity=".24"/>
+    </g>
+    <g id="target-semantic" data-node="deepseek-semantic-001">
+      <circle class="node-ring red" cx="770" cy="280" r="82"/>
+      <circle class="node-ring-outer red" cx="770" cy="280" r="98" opacity=".54"/>
+      <circle class="node-ring-outer red" cx="770" cy="280" r="116" opacity=".3"/>
+    </g>
+    <g id="target-next" data-node="next-experiment">
+      <circle class="node-ring gray" cx="700" cy="438" r="70"/>
+      <circle class="node-ring-outer gray" cx="700" cy="438" r="84" opacity=".44"/>
+      <circle class="node-ring-outer gray" cx="700" cy="438" r="98" opacity=".22"/>
+    </g>
+    <g id="target-core" data-node="core">
+      <circle class="node-ring teal" cx="520" cy="310" r="86" opacity=".52"/>
+      <circle class="node-ring-outer teal" cx="520" cy="310" r="110" opacity=".36"/>
+      <circle class="node-ring-outer teal" cx="520" cy="310" r="132" opacity=".2"/>
+    </g>
+  </g>
+
+  <g id="map-dots">
+    <circle class="dot teal" cx="520" cy="112" r="5"/>
+    <circle class="dot gold" cx="314" cy="224" r="5"/>
+    <circle class="dot gold" cx="250" cy="398" r="5"/>
+    <circle class="dot green" cx="520" cy="492" r="5"/>
+    <circle class="dot red" cx="770" cy="280" r="5"/>
+    <circle class="dot gray" cx="700" cy="438" r="5"/>
+    <circle class="micro-teal" cx="438" cy="212" r="5"/>
+    <circle class="micro-teal" cx="620" cy="230" r="6"/>
+    <circle class="micro-teal" cx="642" cy="338" r="5"/>
+    <circle class="micro-gold" cx="210" cy="310" r="5"/>
+    <circle class="micro-gold" cx="350" cy="322" r="6"/>
+    <circle class="micro-gold" cx="386" cy="390" r="5"/>
+    <circle class="micro-red" cx="854" cy="326" r="5"/>
+    <circle class="micro-green" cx="520" cy="420" r="6"/>
+    <circle class="micro" cx="138" cy="190" r="4"/>
+    <circle class="micro" cx="192" cy="484" r="4"/>
+    <circle class="micro" cx="446" cy="96" r="3"/>
+    <circle class="micro" cx="660" cy="116" r="4"/>
+    <circle class="micro" cx="896" cy="176" r="3"/>
+    <circle class="micro" cx="942" cy="428" r="4"/>
+    <circle class="micro" cx="758" cy="536" r="4"/>
+    <circle class="micro" cx="398" cy="546" r="4"/>
+  </g>
+</svg>

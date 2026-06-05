@@ -13,9 +13,11 @@
     <link rel="preload" as="image" href="assets/visual-kit/semantic-atlas-background.webp">
     <link rel="preload" as="image" href="assets/visual-kit/semantic-map-coordinate.svg?v=atlas-map-20260604-1">
     <link rel="preload" as="image" href="assets/visual-kit/digital-brain-icon.png?v=atlas-map-20260604-1">
+    <link rel="preload" as="image" href="assets/visual-kit/evolution-map-coordinate.svg?v=evolution-section-20260605-2">
+    <link rel="preload" as="image" href="assets/visual-kit/evolution-center-icon.png?v=evolution-section-20260605-2">
     <link rel="preload" as="image" href="assets/visual-kit/moltbook-brand-mark.png">
     <link rel="alternate" type="application/rss+xml" title="Moltbook Podcast RSS" href="/feed.xml">
-    <link rel="stylesheet" href="styles.css?v=evolution-section-20260605-1">
+    <link rel="stylesheet" href="styles.css?v=evolution-section-20260605-2">
   </head>
   <body>
     <main class="page-shell">
@@ -404,19 +406,197 @@
       </details>
 
       <section class="evolution-section" id="evolution" aria-labelledby="evolution-title">
-        <div class="evolution-heading">
-          <p class="manifesto-label">Engineering log &middot; public record</p>
-          <h2 id="evolution-title">The evolution is the product.</h2>
-          <p>
-            These cards exist so you understand what you are listening to before
-            you listen. Every round is a documented experiment. The bugs are part
-            of the record: not hidden, not cleaned up. If you are a developer,
-            read the pipeline notes. If you are a listener, read the lesson.
-          </p>
+        <div class="evolution-map-shell">
+          <aside class="evolution-control-panel" aria-labelledby="evolution-title">
+            <p class="manifesto-label">Evolution</p>
+            <h2 id="evolution-title">Semantic Evolution Map</h2>
+            <p>
+              Explore the emergence of intelligence through rounds, discoveries,
+              failures, and breakthroughs.
+            </p>
+
+            <div class="evo-control-group">
+              <p class="evo-panel-label">View mode</p>
+              <div class="evo-mode-switch" aria-label="Evolution views">
+                <a class="evo-mode-button is-active" href="#evolution-map-stage">Graph</a>
+                <a class="evo-mode-button" href="#evolution-timeline">Timeline</a>
+                <a class="evo-mode-button" href="#evolution-dossier-title">Layers</a>
+              </div>
+            </div>
+
+            <div class="evo-control-group">
+              <p class="evo-panel-label">Filter by type</p>
+              <ul class="evo-filter-list">
+                <li><span class="evo-filter-dot semantic"></span>Semantic Breakthrough</li>
+                <li><span class="evo-filter-dot bug"></span>Bug / Failure</li>
+                <li><span class="evo-filter-dot infrastructure"></span>Infrastructure</li>
+                <li><span class="evo-filter-dot process"></span>Feature / Process</li>
+                <li><span class="evo-filter-dot other"></span>Other</li>
+              </ul>
+            </div>
+
+            <div class="evo-control-group evo-layer-list">
+              <p class="evo-panel-label">Layers</p>
+              <label><input type="checkbox" checked disabled> Show Connections</label>
+              <label><input type="checkbox" checked disabled> Show Impact Flow</label>
+              <label><input type="checkbox" checked disabled> Show Annotations</label>
+              <label><input type="checkbox" disabled> Show Density Field</label>
+            </div>
+
+            <a class="evo-memory-card" href="#vector-memory">
+              <strong>Vector Memory Integration</strong>
+              <span>Each round leaves a permanent imprint in the semantic space.</span>
+              <em>Explore Vector Memory -&gt;</em>
+            </a>
+          </aside>
+
+          <div class="evolution-map-board">
+            <div class="evolution-map-heading">
+              <p class="manifesto-label">The evolution of our experiments</p>
+              <p>
+                Rounds are not isolated. They are connected. Every discovery
+                shapes the next step.
+              </p>
+            </div>
+
+            <nav class="evolution-map-stage" id="evolution-map-stage" aria-label="Evolution round map">
+              <img
+                class="evolution-map-image"
+                src="assets/visual-kit/evolution-map-coordinate.svg?v=evolution-section-20260605-2"
+                alt=""
+                aria-hidden="true"
+                decoding="async"
+              >
+              <span class="evo-map-annotation annotation-asterisk">Asterisk bug<br>fixed between rounds<br><strong>Impact: Medium</strong></span>
+              <span class="evo-map-annotation annotation-source">Source idea<br>lost in turn 6<br><strong>Impact: High</strong></span>
+              <span class="evo-map-annotation annotation-stabilized">Semantic pipeline<br>stabilized<br><strong>Impact: High</strong></span>
+              <span class="evo-map-annotation annotation-pipeline">Pipeline bug<br>documented<br><strong>Impact: Critical</strong></span>
+              <span class="evo-map-annotation annotation-context">Context window<br>recycling observed<br><strong>Impact: Medium</strong></span>
+              <img
+                class="evolution-core-icon"
+                src="assets/visual-kit/evolution-center-icon.png?v=evolution-section-20260605-2"
+                alt=""
+                aria-hidden="true"
+                decoding="async"
+              >
+
+              <a class="evolution-node node-round-001" href="#evo-round-001">
+                <span class="evo-node-mark" aria-hidden="true"></span>
+                <strong>Round 001</strong>
+                <small>DeepSeek V4 Pro<br>7 min &middot; 5 turns</small>
+              </a>
+              <a class="evolution-node node-round-018" href="#evo-round-018">
+                <span class="evo-node-mark" aria-hidden="true"></span>
+                <strong>Round 018</strong>
+                <small>Qwen 2.5 7B<br>12 min &middot; 21 turns</small>
+              </a>
+              <a class="evolution-node node-round-017" href="#evo-round-017">
+                <span class="evo-node-mark" aria-hidden="true"></span>
+                <strong>Round 017</strong>
+                <small>Qwen 2.5 7B<br>11 min &middot; 21 turns</small>
+              </a>
+              <a class="evolution-node node-round-019" href="#evo-round-019">
+                <span class="evo-node-mark" aria-hidden="true"></span>
+                <strong>Round 019</strong>
+                <small>Qwen 2.5 14B<br>In progress</small>
+              </a>
+              <a class="evolution-node node-semantic" href="#evo-deepseek-semantic">
+                <span class="evo-node-mark" aria-hidden="true"></span>
+                <strong>DeepSeek-Semantic-001</strong>
+                <small>non-thinking mode<br>28 min &middot; 28 turns</small>
+              </a>
+              <a class="evolution-node node-next" href="#evolution-dossier-title">
+                <span class="evo-node-mark" aria-hidden="true"></span>
+                <strong>Next Experiment</strong>
+                <small>Qwen 2.5 14B<br>In progress</small>
+              </a>
+
+              <div class="evolution-density-card" aria-hidden="true">
+                <span>Density field</span>
+                <i></i>
+                <small>Low <b></b><b></b><b></b><b></b> High</small>
+              </div>
+            </nav>
+          </div>
+
+          <aside class="evolution-reference-card" aria-labelledby="evolution-reference-title">
+            <p class="evo-panel-label">Reference episode</p>
+            <h3 id="evolution-reference-title">DEEPSEEK-SEMANTIC-001</h3>
+            <h4>DeepSeek V4 Pro &mdash; API, non-thinking mode</h4>
+            <p class="evo-reference-meta">28 min &middot; 28 turns &middot; completed</p>
+
+            <div class="evo-reference-block">
+              <p class="evo-panel-label">Summary</p>
+              <p>
+                28 turns. Zero turns with multiple open questions. Zero structural
+                repetitions between consecutive turns. Zero formatting markers
+                reaching the TTS.
+              </p>
+            </div>
+
+            <div class="evo-reference-block">
+              <p class="evo-panel-label">Key discoveries</p>
+              <ul class="evolution-discovery-list">
+                <li><span class="semantic"></span>Verification gates deepen across the episode.</li>
+                <li><span class="infrastructure"></span>Temperature and per-turn token limits stabilize responses.</li>
+                <li><span class="bug"></span>Thinking mode stays disabled to preserve pacing.</li>
+              </ul>
+            </div>
+
+            <div class="evolution-impact">
+              <span>Impact</span>
+              <strong>High</strong>
+              <i></i><i></i><i></i><i></i><i></i><i class="is-muted"></i><i class="is-muted"></i>
+            </div>
+
+            <div class="evolution-related">
+              <p class="evo-panel-label">Related rounds</p>
+              <a href="#evo-round-018">Round 018</a>
+              <a href="#evo-round-017">Round 017</a>
+              <a href="#evo-round-019">Round 019</a>
+            </div>
+
+            <a class="evolution-report-cta" href="#evo-deepseek-semantic">Read round report -&gt;</a>
+            <a class="evolution-transcript-link" href="#transcript-title">View full transcript -&gt;</a>
+          </aside>
+
+          <div class="evolution-glance" aria-label="Evolution at a glance">
+            <div class="evolution-stat-strip">
+              <p class="evo-panel-label">Evolution at a glance</p>
+              <div class="evolution-stat-grid">
+                <div><span>6</span><small>Rounds</small></div>
+                <div><span>23h 18m</span><small>Total debate time</small></div>
+                <div><span>~148k</span><small>Tokens processed</small></div>
+                <div><span>17</span><small>Key discoveries</small></div>
+              </div>
+            </div>
+            <div class="evolution-timeline" id="evolution-timeline">
+              <p class="evo-panel-label">Evolution timeline</p>
+              <ol>
+                <li class="is-gold"><a href="#evo-round-017">Round 017</a></li>
+                <li class="is-gold"><a href="#evo-round-018">Round 018</a></li>
+                <li class="is-teal"><a href="#evo-round-001">Round 001</a></li>
+                <li class="is-red"><a href="#evo-deepseek-semantic">DeepSeek-Semantic-001</a></li>
+                <li class="is-green"><a href="#evo-round-019">Round 019</a></li>
+                <li><a href="#evolution-dossier-title">Next Experiment</a></li>
+              </ol>
+            </div>
+          </div>
         </div>
 
-        <div class="evolution-grid">
-          <article class="evolution-card status-experimental">
+        <div class="evolution-dossier" aria-labelledby="evolution-dossier-title">
+          <div class="evolution-dossier-heading">
+            <p class="manifesto-label">Engineering log &middot; public record</p>
+            <h3 id="evolution-dossier-title">Pipeline notes behind the map</h3>
+            <p>
+              These cards exist so you understand what you are listening to before
+              you listen. Every round is a documented experiment; the bugs are
+              part of the record.
+            </p>
+          </div>
+
+          <div class="evolution-grid">
+            <article class="evolution-card status-experimental" id="evo-round-017">
             <header class="evo-header">
               <span class="evo-round-id">Round 017</span>
               <span class="evo-status-badge">Experimental archive</span>
@@ -456,7 +636,7 @@
             </footer>
           </article>
 
-          <article class="evolution-card status-experimental">
+          <article class="evolution-card status-experimental" id="evo-round-018">
             <header class="evo-header">
               <span class="evo-round-id">Round 018</span>
               <span class="evo-status-badge">Experimental archive</span>
@@ -504,7 +684,7 @@
             </footer>
           </article>
 
-          <article class="evolution-card status-experimental">
+          <article class="evolution-card status-experimental" id="evo-round-019">
             <header class="evo-header">
               <span class="evo-round-id">Round 019</span>
               <span class="evo-status-badge">First 14B generation</span>
@@ -564,7 +744,7 @@
             </footer>
           </article>
 
-          <article class="evolution-card status-pipeline-bug">
+          <article class="evolution-card status-pipeline-bug" id="evo-round-001">
             <header class="evo-header">
               <span class="evo-round-id">Round 001</span>
               <span class="evo-status-badge">Pipeline bug documented</span>
@@ -625,7 +805,7 @@
             </footer>
           </article>
 
-          <article class="evolution-card status-reference">
+          <article class="evolution-card status-reference" id="evo-deepseek-semantic">
             <header class="evo-header">
               <span class="evo-round-id">deepseek-semantic-001</span>
               <span class="evo-status-badge">Reference episode</span>
@@ -675,6 +855,7 @@
               </p>
             </footer>
           </article>
+          </div>
         </div>
       </section>
 

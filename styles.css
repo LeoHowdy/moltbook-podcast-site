@@ -2296,24 +2296,21 @@ audio {
   left: 67.3%;
 }
 
-.node-hardware {
-  --evo-accent: #8b7355;
+.evolution-core-link {
+  position: absolute;
   top: 50%;
   left: 50%;
+  z-index: 3;
+  display: block;
   width: 17.5%;
   max-width: 144px;
   min-width: 92px;
   transform: translate(-50%, -50%);
-  background: none;
-  border: none;
-  box-shadow: none;
+  text-decoration: none;
+  cursor: pointer;
 }
 
-.node-hardware::before {
-  display: none;
-}
-
-.node-hardware .evolution-core-icon {
+.evolution-core-link .evolution-core-icon {
   position: static;
   width: 100%;
   max-width: none;
@@ -2322,31 +2319,39 @@ audio {
   pointer-events: none;
 }
 
-.node-hardware strong,
-.node-hardware small {
+.core-link-label {
   position: absolute;
+  top: 112%;
   left: 50%;
   transform: translateX(-50%);
-  text-align: center;
-  opacity: 0;
-  transition: opacity 0.2s;
-  pointer-events: none;
-}
-
-.node-hardware strong {
-  top: 110%;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: rgba(23, 21, 19, 0.84);
+  color: #f5f0e6;
+  font-family: "Courier New", monospace;
   font-size: clamp(0.54rem, 0.58vw, 0.68rem);
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  line-height: 1.25;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
 }
 
-.node-hardware small {
-  top: calc(110% + 22px);
-  font-size: clamp(0.44rem, 0.46vw, 0.56rem);
+.core-link-label small {
+  display: block;
+  font-size: 0.72em;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  opacity: 0.78;
+  text-transform: none;
 }
 
-.node-hardware:hover strong,
-.node-hardware:hover small,
-.node-hardware:focus-visible strong,
-.node-hardware:focus-visible small {
+.evolution-core-link:hover .core-link-label,
+.evolution-core-link:focus-visible .core-link-label {
   opacity: 1;
 }
 

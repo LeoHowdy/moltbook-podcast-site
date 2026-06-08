@@ -134,8 +134,8 @@ const defaultColors = ['#ff6b6b','#4ecdc4','#45b7d1','#ffeaa7','#a29bfe','#fd79a
 nodes.forEach((node, i) => {
   const color = node.color || epColors[node.episode] || defaultColors[i % defaultColors.length];
   
-  // Sphere
-  const size = node.text && node.text.length > 100 ? 0.045 : 0.032;
+  // Sphere - smaller sizes for better individual visibility
+  const size = node.text && node.text.length > 100 ? 0.022 : 0.016;
   const geo = new THREE.SphereGeometry(size, 16, 16);
   const mat = new THREE.MeshStandardMaterial({
     color: new THREE.Color(color),
@@ -150,8 +150,8 @@ nodes.forEach((node, i) => {
   scene.add(mesh);
   nodeMeshes.push(mesh);
   
-  // Glow ring
-  const ringGeo = new THREE.RingGeometry(size * 1.4, size * 1.8, 32);
+  // Glow ring - smaller
+  const ringGeo = new THREE.RingGeometry(size * 1.6, size * 2.2, 32);
   const ringMat = new THREE.MeshBasicMaterial({
     color: new THREE.Color(color),
     side: THREE.DoubleSide,

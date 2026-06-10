@@ -4462,10 +4462,6 @@ audio {
 }
 
 .vector-memory-section {
-  display: grid;
-  grid-template-columns: minmax(260px, 0.78fr) minmax(320px, 1.22fr);
-  gap: clamp(18px, 4vw, 42px);
-  align-items: center;
   margin-top: 18px;
   padding: clamp(24px, 4vw, 38px);
   border: 1px solid rgba(35, 107, 120, 0.2);
@@ -4478,6 +4474,13 @@ audio {
   box-shadow: 0 14px 44px rgba(23, 21, 19, 0.08);
 }
 
+.vector-memory-grid {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.78fr) minmax(320px, 1.22fr);
+  gap: clamp(18px, 4vw, 42px);
+  align-items: center;
+}
+
 .vector-memory-section h2 {
   max-width: 14ch;
   color: var(--ink);
@@ -4485,7 +4488,8 @@ audio {
   line-height: 1;
 }
 
-.vector-memory-section > p {
+.vector-memory-section > p,
+.vector-memory-grid > p {
   margin: 0;
   color: var(--muted);
   font-size: clamp(0.96rem, 1.5vw, 1.08rem);
@@ -5413,7 +5417,7 @@ audio {
   .wall-hero,
   .wall-workbench-grid,
   .agent-participation-strip,
-  .vector-memory-section,
+  .vector-memory-grid,
   .episode-panel,
   .content-grid,
   .hosts-heading,

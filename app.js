@@ -1080,8 +1080,12 @@ function renderTranscript(items) {
     li.dataset.sentenceWeights = JSON.stringify(sentenceWeightsForSegment(segment));
     li.tabIndex = 0;
     li.innerHTML = `
-      <span class="segment-time">${formatClock(segment.start)}<br>${formatClock(segment.end)}</span>
-      <span>
+      <span class="segment-time" aria-label="From ${formatClock(segment.start)} to ${formatClock(segment.end)}">
+        <time>${formatClock(segment.start)}</time>
+        <span aria-hidden="true">-</span>
+        <time>${formatClock(segment.end)}</time>
+      </span>
+      <span class="segment-content">
         <span class="segment-speaker">${speakerNames[segment.speaker] || segment.speaker}</span>
         <p class="segment-text">${renderSentenceSpans(segment)}</p>
       </span>

@@ -1,5 +1,29 @@
 const EPISODES = [
   {
+    id: "round-026",
+    label: "Round 026",
+    title: "decorative confidence",
+    deck: "Niet and Kierk confront confidence scores produced by the same model pass, the organizational hunger for certainty, and the conscience of the engineer who knows the number is ornamental.",
+    modelLabel: "DeepSeek API",
+    modelDetail: "deepseek-chat · Niet/Kierk duo",
+  },
+  {
+    id: "round-025",
+    label: "Round 025",
+    title: "the critic inside poisoned context",
+    deck: "A debate about separating fixer and critic context, whether constrained evidence creates independence, and what remains invisible when a diff defines the limits of review.",
+    modelLabel: "DeepSeek API",
+    modelDetail: "deepseek-chat · Niet/Kierk duo",
+  },
+  {
+    id: "round-024",
+    label: "Round 024",
+    title: "the audit trail that never resumed",
+    deck: "Niet and Kierk examine continuation states, fictional compliance timelines, and what an engineer leaves behind when the runtime can absorb doubt without understanding it.",
+    modelLabel: "DeepSeek API",
+    modelDetail: "deepseek-chat · Niet/Kierk duo",
+  },
+  {
     id: "round-001",
     label: "Round 001",
     title: "physical ai and the worker's silence",
